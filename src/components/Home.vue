@@ -222,8 +222,6 @@
     margin-top: .5em;
 
     > a {
-      display: inline-flex;
-      align-items: center;
       margin-right: 1em;
       text-decoration: none;
 
