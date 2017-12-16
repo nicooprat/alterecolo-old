@@ -22,8 +22,8 @@
         </span>
         <small class="subtitle">{{item.Remplacé}}</small>
         <strong class="title">{{item.Alternative}}</strong>
-        <nav class="links" v-if="item.Catégorie">
-          <a class="category" href="#" v-for="category in item.Catégorie">{{category}}</a>          
+        <nav class="links">
+          <router-link class="category" v-for="category in item.categories" :to="{name: 'Category', params: {category: category.slug}}">{{category.name}}</router-link>          
           <a class="source" v-if="item.Lien" :href="item.Lien">
             Source
             <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></svg>
@@ -79,27 +79,33 @@
         }).eachPage((items, fetchNextPage) => {
           // Load items in component
           this.items.push(...items.map((item) => {
+            const newItem = {
+              id: item.id,
+              cover: item.fields.Photo && item.fields.Photo[0], // Easier access
+              expanded: false, // Toggle visibility, must be declared to be reactive
+              categories: [],
+              ...item.fields,
+            }
             // Push item categories
             item.fields.Catégorie.forEach((category) => {
               const slug = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(' ').join('-').toLowerCase()
               const existingCategory = this.categories.filter((c) => c.slug === slug)[0]
+              // Push normalized categories in newItem
+              const cat = {
+                name: category,
+                count: 1,
+                slug
+              }
+              newItem.categories.push(cat)
+              // Reduce global categories
               if (!existingCategory) {
-                this.categories.push({
-                  name: category,
-                  count: 1,
-                  slug
-                })
+                this.categories.push(cat)
               } else {
                 existingCategory.count = existingCategory.count + 1
               }
             })
             // Push item itself
-            return {
-              id: item.id,
-              cover: item.fields.Photo && item.fields.Photo[0], // Easier access
-              expanded: false, // Toggle visibility, must be declared to be reactive
-              ...item.fields,
-            }
+            return newItem
           }))
           // Load all datas
           fetchNextPage()

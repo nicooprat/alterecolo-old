@@ -102,6 +102,7 @@
   }
 
   footer {
+    font-size: .8em;
     margin: 5vh 0;
     text-align: center;
 
