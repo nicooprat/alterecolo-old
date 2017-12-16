@@ -10,7 +10,7 @@
     name: 'Score',
     data() {
       return {
-        score: localStorage.getItem('score'),
+        score: this.$store.getters.score,
       }
     }
   }
