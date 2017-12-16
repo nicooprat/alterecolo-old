@@ -124,7 +124,7 @@
 
   .intro {
     opacity: .75;
-    margin: 5vh 0;
+    margin: 2vh 0 5vh;
   }
 
   .filters {
@@ -183,7 +183,7 @@
     
     svg {
       display: inline-block;
-      width: 16px; height: 16px;
+      width: 1em; height: 1em;
       margin-left: .5em;
       color: gold;
       stroke: currentColor;

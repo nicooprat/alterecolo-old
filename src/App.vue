@@ -27,15 +27,20 @@
     line-height: 1.418;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }  
+  }
+
+  html, body {
+    font-family: 'Lato', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    color: $text;
+  }
 
   #app {
-    font-family: 'Lato', Helvetica, Arial, sans-serif;
-    color: $text;
     padding: 0 1em;
-    max-width: 45em;
+    max-width: 45rem;
     margin: auto;
     position: relative;
+    @include rfs(18);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -54,6 +59,7 @@
   .logo {
     width: auto;
     height: 3.4em;
+    margin-top: 0.4em;
     position: absolute;
     right: 100%;
     color: $green;
