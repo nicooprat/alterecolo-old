@@ -13,9 +13,9 @@
       </router-link>
     </nav>
 
-    <ul class="list" v-if="getItems">
-      <Item v-for="item in getItems" :item="item"/>
-    </ul>
+    <transition-group class="list" v-if="getItems" tag="ul" appear name="fade">
+      <Item v-for="item in getItems" :item="item" :key="item.id"/>
+    </transition-group>
   </main>
 </template>
 

@@ -73,6 +73,20 @@
     &.is-checked {
       box-shadow: 0 0 0 1px rgba($green,.5), 0 1px 2px rgba($green,.25);
     }
+
+
+    &.fade-enter-active, .fade-leave-active {
+      transition: all 250ms;
+    }
+
+    &.fade-enter, .fade-leave-to {
+      opacity: 0;
+      transform: translateY(25%);
+    }
+
+    &.fade-move {
+      transition: transform 250ms;
+    }
   }
 
   .cover {
