@@ -6,10 +6,12 @@
     <h1><strong>AlterÉcolo</strong></h1>
     <h3>Alternatives écologiques aux objets et habitudes du quotidien</h3>
 
+    <score/>
+
     <router-view/>
     
     <footer class="footer">
-      <a href="https://thenounproject.com/search/?q=leaf&i=1114779">Logo: leaf by Satisfactory from the Noun Project</a>
+      Logo à partir de <a href="https://thenounproject.com/search/?q=leaf&i=1114779">Leaf by Satisfactory (Noun Project)</a>
       <br>
       Icônes provenant de <a href="https://iconmonstr.com/">IconMonstr</a> 
     </footer>
@@ -17,8 +19,13 @@
 </template>
 
 <script>
+  import Score from '@/components/Score'
+
   export default {
-    name: 'app'
+    name: 'app',
+    components: {
+      Score
+    }
   }
 </script>
 
@@ -70,9 +77,11 @@
 
     @media (max-width: 900px) {
       position: static;
-      float: right;
-      margin-left: 1em;
-      margin-top: .4em;
+      margin-top: 1em;
+    }
+
+    @media (max-width: 600px) {
+      height: 2em;
     }
   }
 
@@ -80,6 +89,10 @@
     margin-top: 10vh;
     margin-bottom: 0;
     color: $green;
+
+    @media (max-width: 900px) {
+      margin-top: 0;
+    }
 
     > strong {
       position: relative;

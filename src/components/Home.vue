@@ -91,7 +91,7 @@
               id: item.id,
               cover: item.fields.Photo && item.fields.Photo[0], // Easier access
               expanded: false, // Toggle visibility, must be declared to be reactive
-              checked: false, // Toggle checked, must be declared to be reactive
+              checked: localStorage.getItem('checked').includes(item.id), // Toggle checked, must be declared to be reactive
               categories: [],
               ...item.fields,
             }
@@ -123,12 +123,18 @@
         })
       },
       expand(id) {
+        // Toggle visibility of clicked item description
         const target = this.items.filter((item) => item.id === id)[0]
         target.expanded = !target.expanded
       },
       check(id) {
+        // Toggle check for clicked item
         const target = this.items.filter((item) => item.id === id)[0]
         target.checked = !target.checked
+        // Remember
+        const checkeds = this.items.filter(i => i.checked)
+        localStorage.setItem('checked', checkeds.map(item => item.id))
+        localStorage.setItem('score', checkeds.reduce((res, item) => res + item.Difficulté, 0))
       }
     }
   }
