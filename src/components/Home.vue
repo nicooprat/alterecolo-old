@@ -2,6 +2,16 @@
   <div class="hello">
     <h1>AlterÉcolo</h1>
 
+    <nav v-if="getCategories" class="filters">
+      <router-link class="filter" :to="{name: 'Home'}">
+        <strong class="name">Toutes</strong>
+      </router-link>
+      <router-link class="filter" v-for="(count, category) in getCategories" :to="{name: 'Category', params: {category: category}}">
+        <strong class="name">{{category}}</strong>
+        <span class="count">{{count}}</span>
+      </router-link>
+    </nav>
+
     <ul class="list" v-if="getItems">
       <li class="item" v-for="item in getItems">
         <img class="cover" v-if="item.cover" :src="item.cover.thumbnails.large.url" :alt="item.Alternative" :width="item.cover.thumbnails.large.width" :height="item.cover.thumbnails.large.height">
@@ -46,6 +56,28 @@
         categories: []
       }
     },
+    computed: {
+      getItems() {
+        // Home: all
+        if (this.$route.name === 'Home') return this.items
+        // Category: filtered
+        return this.items.filter((item) => item.Catégorie.includes(this.$route.params.category))
+      },
+      getCategories() {
+        // Hide filters if no item loaded
+        if (!this.categories) return false
+        // Else reduce categories
+        const categories = {}
+        this.categories.forEach((cat) => {
+          if (!categories[cat]) {
+            categories[cat] = 1
+          } else {
+            categories[cat] = categories[cat] + 1
+          }
+        })
+        return categories
+      }
+    },
     created() {
       this.fetchData()
     },
@@ -85,6 +117,29 @@
 <style scoped lang="scss">
   @import '../scss/vars';
 
+  .filters {
+    margin: 2em 0;
+  }
+
+  .filter {
+    display: inline-block;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+
+    &.router-link-exact-active {
+      border-bottom-color: currentColor;
+    }
+  }
+
+  .count {
+    opacity: .5;
+    margin-left: .25em;
+    font-size: .8em;
+    font-weight: bold;
+  }
+
   .list {
     list-style: none;
     padding-left: 0;
@@ -105,8 +160,7 @@
     float: left;
     width: 6.5em; height: 6.5em;
     object-fit: cover;
-    margin-top: -1em;
-    margin-left: -7.5em;
+    margin: -1em 0 -1em -7.5em;
     border: 3px solid white;
     border-radius: 5px;
     overflow: hidden;
@@ -138,7 +192,6 @@
     display: block;
     font-size: 1em;
     opacity: .75;
-    margin-bottom: .5em;
   }
 
   .title {
@@ -171,7 +224,7 @@
   .desc {
     display: block;
     margin: -1em;
-    margin-top: 0;
+    margin-top: 1em;
     margin-left: -7.5em;
     padding: 1em;
     position: relative;
