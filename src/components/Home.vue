@@ -1,6 +1,6 @@
 <template>
   <main class="home">
-    <p class="intro">On souhaite tous <strong>améliorer nos habitudes</strong>, consommer <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir claire. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...!</p>
+    <p class="intro">On souhaite tous <strong>améliorer nos habitudes</strong>, consommer de façon <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir clair. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...! <a href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a></p>
 
     <nav v-if="this.items.length" class="filters">
       <router-link class="filter" :to="{name: 'Home'}">
@@ -39,7 +39,9 @@
             </span>
           </a>
         </nav>
-        <span v-show="item.expanded" class="desc">{{item.Description}}</span>
+        <span v-show="item.expanded" class="desc">
+          <span>{{item.Description}}</span>
+        </span>
       </li>
     </ul>
   </main>
@@ -131,6 +133,13 @@
   .intro {
     opacity: .75;
     margin: 2vh 0 5vh;
+
+    a {
+      color: $green;
+      text-decoration: none;
+      border-bottom: 2px solid;
+      font-weight: bold;
+    }
   }
 
   .filters {
@@ -140,7 +149,7 @@
   .filter {
     display: inline-block;
     margin-right: 1em;
-    margin-bottom: 1em;
+    margin-bottom: .5em;
     text-decoration: none;
     border-bottom: 2px solid transparent;
 
@@ -164,6 +173,7 @@
   
   .item {
     display: block;
+    background-color: white;
     box-shadow: 0 0 0 1px rgba(black,.05), 0 1px 2px rgba(black,.1);
     border-radius: 3px;
     margin-bottom: 2em;
@@ -243,8 +253,13 @@
     margin-top: 1em;
     margin-left: -7.5em;
     padding: 1em;
+    opacity: .8;
     position: relative;
     z-index: 1;
     clear: left;
+
+    > span {
+      font-size: .9em;
+    }
   }
 </style>

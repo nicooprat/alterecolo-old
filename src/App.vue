@@ -10,6 +10,8 @@
     
     <footer class="footer">
       <a href="https://thenounproject.com/search/?q=leaf&i=1114779">Logo: leaf by Satisfactory from the Noun Project</a>
+      <br>
+      Icônes provenant de <a href="https://iconmonstr.com/">IconMonstr</a> 
     </footer>
   </div>
 </template>
@@ -29,10 +31,11 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  html, body {
+  html {
     font-family: 'Lato', Helvetica, Arial, sans-serif;
     font-size: 16px;
     color: $text;
+    background-color: #fcfcfb;
   }
 
   #app {
@@ -110,15 +113,15 @@
     font-size: .8em;
     margin: 5vh 0;
     text-align: center;
+    color: rgba($text,.5);
 
     a {
-      opacity: .35;
       color: inherit;
       text-decoration: none;
       border-bottom: 1px solid;
 
       &:hover {
-        opacity: 1;
+        color: $text;
       }
     }
   }
