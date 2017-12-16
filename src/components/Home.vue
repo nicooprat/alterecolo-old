@@ -1,14 +1,18 @@
 <template>
   <div class="hello">
     <h1>AlterÉcolo</h1>
+    <h3>Alternatives écologiques aux objets et habitudes du quotidien</h3>
 
-    <nav v-if="getCategories" class="filters">
+    <p>On souhaite tous <strong>améliorer nos habitudes</strong>, consommer <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir claire. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...!</p>
+
+    <nav v-if="this.items.length" class="filters">
       <router-link class="filter" :to="{name: 'Home'}">
         <strong class="name">Toutes</strong>
+        <span class="count">{{this.items.length}}</span>
       </router-link>
-      <router-link class="filter" v-for="(count, category) in getCategories" :to="{name: 'Category', params: {category: category}}">
-        <strong class="name">{{category}}</strong>
-        <span class="count">{{count}}</span>
+      <router-link class="filter" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
+        <strong class="name">{{category.name}}</strong>
+        <span class="count">{{category.count}}</span>
       </router-link>
     </nav>
 
@@ -53,7 +57,7 @@
     data() {
       return {
         items: [],
-        categories: []
+        categories: [],
       }
     },
     computed: {
@@ -61,21 +65,8 @@
         // Home: all
         if (this.$route.name === 'Home') return this.items
         // Category: filtered
-        return this.items.filter((item) => item.Catégorie.includes(this.$route.params.category))
-      },
-      getCategories() {
-        // Hide filters if no item loaded
-        if (!this.categories) return false
-        // Else reduce categories
-        const categories = {}
-        this.categories.forEach((cat) => {
-          if (!categories[cat]) {
-            categories[cat] = 1
-          } else {
-            categories[cat] = categories[cat] + 1
-          }
-        })
-        return categories
+        const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]
+        return category && this.items.filter((item) => item.Catégorie.includes(category.name))
       }
     },
     created() {
@@ -91,14 +82,27 @@
         }).eachPage((items, fetchNextPage) => {
           // Load items in component
           this.items.push(...items.map((item) => {
-            this.categories.push(...item.fields.Catégorie)
+            // Push item categories
+            item.fields.Catégorie.forEach((category) => {
+              const slug = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(' ').join('-').toLowerCase()
+              const existingCategory = this.categories.filter((c) => c.slug === slug)[0]
+              if (!existingCategory) {
+                this.categories.push({
+                  name: category,
+                  count: 1,
+                  slug
+                })
+              } else {
+                existingCategory.count = existingCategory.count + 1
+              }
+            })
+            // Push item itself
             return {
               id: item.id,
               cover: item.fields.Photo && item.fields.Photo[0], // Easier access
               expanded: false, // Toggle visibility, must be declared to be reactive
               ...item.fields,
             }
-            // Push categories
           }))
           // Load all datas
           fetchNextPage()
@@ -116,6 +120,21 @@
 
 <style scoped lang="scss">
   @import '../scss/vars';
+
+  h1 {
+    margin-top: 5vh;
+    margin-bottom: 0;
+  }
+
+  h3 {
+    margin-top: 0;
+    opacity: .5;
+    font-weight: bold;
+  }
+
+  p {
+    opacity: .75;
+  }
 
   .filters {
     margin: 2em 0;
@@ -172,17 +191,18 @@
     
     svg {
       display: inline-block;
-      width: 18px; height: 18px;
-      margin-left: .25em;
+      width: 16px; height: 16px;
+      margin-left: .5em;
       color: gold;
+      stroke: currentColor;
+      stroke-width: 2px;
+      overflow: visible;
 
       &.off {
         color: rgba(black,.1);
 
         path {
           fill: none;
-          stroke: currentColor;
-          stroke-width: 2px;
         }
       }
     }
