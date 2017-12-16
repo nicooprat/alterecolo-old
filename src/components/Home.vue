@@ -1,9 +1,6 @@
 <template>
-  <div class="hello">
-    <h1>AlterÉcolo</h1>
-    <h3>Alternatives écologiques aux objets et habitudes du quotidien</h3>
-
-    <p>On souhaite tous <strong>améliorer nos habitudes</strong>, consommer <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir claire. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...!</p>
+  <main class="home">
+    <p class="intro">On souhaite tous <strong>améliorer nos habitudes</strong>, consommer <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir claire. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...!</p>
 
     <nav v-if="this.items.length" class="filters">
       <router-link class="filter" :to="{name: 'Home'}">
@@ -45,7 +42,7 @@
         <span v-show="item.expanded" class="desc">{{item.Description}}</span>
       </li>
     </ul>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -121,23 +118,17 @@
 <style scoped lang="scss">
   @import '../scss/vars';
 
-  h1 {
-    margin-top: 5vh;
-    margin-bottom: 0;
+  .home {
+    min-height: 100vh;
   }
 
-  h3 {
-    margin-top: 0;
-    opacity: .5;
-    font-weight: bold;
-  }
-
-  p {
+  .intro {
     opacity: .75;
+    margin: 5vh 0;
   }
 
   .filters {
-    margin: 2em 0;
+    margin: 5vh 0;
   }
 
   .filter {
@@ -162,6 +153,7 @@
   .list {
     list-style: none;
     padding-left: 0;
+    margin-bottom: 5vh;
   }
   
   .item {
