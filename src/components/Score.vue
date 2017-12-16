@@ -8,11 +8,7 @@
 <script>
   export default {
     name: 'Score',
-    data() {
-      return {
-        score: this.$store.getters.score,
-      }
-    }
+    props: ['score']
   }
 </script>
 

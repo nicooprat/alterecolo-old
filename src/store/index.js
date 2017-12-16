@@ -10,18 +10,18 @@ export default new Vuex.Store({
     checkeds: [],
     score: 0
   },
-  getters: {
-    checkeds: state => state.checkeds,
-    score: state => state.score,
-  },
   mutations: {
     toggleItem (state, {item}) {
-      if (state.checkeds.includes(item.id)) {
-        state.score -= item.Difficulté
-        state.checkeds.splice(item.id, 1)
-      } else {
+      // Already checked?
+      const index = state.checkeds.indexOf(item.id)
+      if (index === -1) {
+        // Push
         state.score += item.Difficulté
         state.checkeds.push(item.id)
+      } else {
+        // Pull
+        state.score -= item.Difficulté
+        state.checkeds.splice(index, 1)
       }
     }
   }

@@ -6,7 +6,7 @@
     <h1><strong>AlterÉcolo</strong></h1>
     <h3>Alternatives écologiques aux objets et habitudes du quotidien</h3>
 
-    <score/>
+    <score :score="$store.state.score"/>
 
     <router-view/>
     

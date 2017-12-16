@@ -51,9 +51,6 @@
       check(item) {
         // Toggle check state for clicked item
         this.$store.commit('toggleItem', {item})
-        // Remember
-        const checkeds = this.items.filter(i => i.checked)
-        localStorage.setItem('score', checkeds.reduce((res, item) => res + item.Difficulté, 0))
       }
     }
   }

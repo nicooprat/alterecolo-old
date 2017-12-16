@@ -38,61 +38,63 @@
     },
     computed: {
       getItems() {
+        // Get items and their state
+        const items = this.items.map(item => {
+          return {
+            ...item,
+            checked: this.$store.state.checkeds.includes(item.id)
+          }
+        })
         // Home: all
-        if (this.$route.name === 'Home') return this.items
+        if (this.$route.name === 'Home') return items
         // Category: filtered
         const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]
-        return category && this.items.filter((item) => item.Catégorie.includes(category.name))
+        return category && items.filter((item) => item.Catégorie.includes(category.name))
       }
     },
     created() {
-      this.fetchData()
-    },
-    methods: {
-      fetchData() {
-        // Empty items
-        this.items = []
-        // Fetch new items
-        base('Alternatives').select({
-          filterByFormula: '{Validé} = 1' // Only manually validated items
-        }).eachPage((items, fetchNextPage) => {
-          // Load items in component
-          this.items.push(...items.map((item) => {
-            const newItem = {
-              id: item.id,
-              cover: item.fields.Photo && item.fields.Photo[0], // Easier access
-              expanded: false, // Toggle visibility, must be declared to be reactive
-              checked: this.$store.getters.checkeds.includes(item.id), // Toggle checked, must be declared to be reactive
-              categories: [],
-              ...item.fields,
+      // Empty items
+      this.items = []
+      // Fetch new items
+      base('Alternatives').select({
+        filterByFormula: '{Validé} = 1' // Only manually validated items
+      }).eachPage((items, fetchNextPage) => {
+        // Load items in component
+        this.items.push(...items.map((item) => {
+          const newItem = {
+            id: item.id,
+            cover: item.fields.Photo && item.fields.Photo[0], // Easier access
+            expanded: false, // Toggle visibility, must be declared to be reactive
+            checked: false, // Toggle checked, must be declared to be reactive
+            categories: [],
+            ...item.fields,
+          }
+          // Push item categories
+          item.fields.Catégorie.forEach((category) => {
+            const slug = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(' ').join('-').toLowerCase()
+            const existingCategory = this.categories.filter((c) => c.slug === slug)[0]
+            // Push normalized categories in newItem
+            const cat = {
+              name: category,
+              count: 1,
+              slug
             }
-            // Push item categories
-            item.fields.Catégorie.forEach((category) => {
-              const slug = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(' ').join('-').toLowerCase()
-              const existingCategory = this.categories.filter((c) => c.slug === slug)[0]
-              // Push normalized categories in newItem
-              const cat = {
-                name: category,
-                count: 1,
-                slug
-              }
-              newItem.categories.push(cat)
-              // Reduce global categories
-              if (!existingCategory) {
-                this.categories.push(cat)
-              } else {
-                existingCategory.count = existingCategory.count + 1
-              }
-            })
-            // Push item itself
-            return newItem
-          }))
-          // Load all datas
-          fetchNextPage()
-        }, (err) => {
-          err && console.error(err)
-        })
-      }
+            newItem.categories.push(cat)
+            // Reduce global categories
+            if (!existingCategory) {
+              this.categories.push(cat)
+            } else {
+              existingCategory.count = existingCategory.count + 1
+            }
+          })
+          // Push item itself
+          return newItem
+        }))
+        // Load all datas
+        fetchNextPage()
+      }, (err) => {
+        err && console.error(err)
+      })
     }
   }
 </script>
