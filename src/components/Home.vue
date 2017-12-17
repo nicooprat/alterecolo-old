@@ -36,7 +36,7 @@
         <Item v-for="item in getItems" :item="item"/>
       </ul>
       <p class="empty" v-else>
-        <strong>😕</strong>
+        <strong>🍃</strong>
         <span>Aucune alternative trouvée...</span>
         <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a>
       </p>
@@ -289,8 +289,9 @@
   }
 
   .empty {
+    margin-top: 0;
     margin-bottom: 5vh;
-    background-color: rgba(black,.03);
+    background-color: rgba($green,.05);
     padding: 1em;
     border-radius: 3px;
 
@@ -302,6 +303,7 @@
 
     span {
       display: block;
+      color: mix($green,black,50);
       opacity: .5;
       font-size: .9em;
     }
