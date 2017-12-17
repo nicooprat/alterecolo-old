@@ -6,7 +6,7 @@ import { sync } from 'vuex-router-sync'
 import VueFuse from 'vue-fuse'
 import VueAnalytics from 'vue-analytics'
 
-sync(store, router) 
+sync(store, router)
 
 Vue.use(VueAnalytics, {id: 'UA-111346412-1'})
 Vue.use(VueFuse)

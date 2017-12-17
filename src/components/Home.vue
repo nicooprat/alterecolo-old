@@ -5,7 +5,7 @@
     <template v-if="datasLoaded">
       <form class="filters">
         <nav class="categories">
-          <router-link class="category" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
+          <router-link class="category" v-for="category in categories" :key="category.slug" :to="{name: 'Category', params: {category: category.slug}}">
             <strong class="name">{{category.name}}</strong>
             <span class="count">{{category.count}}</span>
           </router-link>
@@ -14,7 +14,7 @@
             <span class="count">{{items.length}}</span>
           </router-link>
         </nav>
-        <vue-fuse placeholder="Rechercher..." tabindex="1" :search="$store.state.route.query.search" :value="$store.state.route.query.search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold=".3" :includeScore="true"/>
+        <vue-fuse placeholder="Rechercher..." tabindex="1" :search="$store.state.route.query.search" :value="$store.state.route.query.search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3" :includeScore="true"/>
 
         <nav class="sorts">
           <label class="sort">
@@ -33,7 +33,7 @@
       </form>
 
       <ul class="list" v-if="getItems && getItems.length">
-        <Item v-for="item in getItems" :item="item"/>
+        <Item v-for="item in getItems" :item="item" :key="item.id"/>
       </ul>
       <p class="empty" v-else>
         <strong>🍃</strong>
@@ -81,13 +81,13 @@
         switch (this.$store.state.route.query.sort) {
           case 'difficulty':
             items = items.sort((a, b) => a.Difficulté > b.Difficulté ? 1 : -1)
-          break;
+            break
           case 'date':
             items = items.sort((a, b) => a.createdTime > b.createdTime ? 1 : -1)
-          break;
+            break
           default:
             items = items.sort((a, b) => a.score > b.score ? 1 : -1)
-          break;
+            break
         }
         // Get items and their state
         items = items.map(item => {
@@ -169,7 +169,7 @@
           eventName: 'searchItems',
           defaultAll: false,
           shouldSort: true,
-          threshold: .3,
+          threshold: 0.3,
           includeScore: true
         }).then(results => this.getResults(results))
       }
