@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import { sync } from 'vuex-router-sync'
 import VueFuse from 'vue-fuse'
-import bugsnag from './config/errors'
 import VueAnalytics from 'vue-analytics'
 
 sync(store, router) 
