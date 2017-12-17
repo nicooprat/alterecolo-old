@@ -4,8 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import VueFuse from 'vue-fuse'
+
+Vue.use(VueFuse)
 
 Vue.config.productionTip = false
+Vue.config.performance = true
 
 /* eslint-disable no-new */
 new Vue({

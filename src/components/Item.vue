@@ -67,13 +67,10 @@
     position: relative;
     z-index: 1; // Each item above previous
     overflow: hidden;
+    transition: opacity 350ms;
 
     &.is-checked {
       box-shadow: 0 0 0 1px rgba($green,.5), 0 1px 2px rgba($green,.25);
-    }
-
-    &.fade-move {
-      transition: all 350ms;
     }
   }
 

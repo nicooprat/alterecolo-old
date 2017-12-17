@@ -1,21 +1,30 @@
 <template>
   <main class="home">
-    <p class="intro">On souhaite tous <strong>améliorer nos habitudes</strong>, consommer de façon <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir clair. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...! <a href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a></p>
+    <p class="intro">On souhaite tous <strong>améliorer nos habitudes</strong>, consommer de façon <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir clair. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...! <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a></p>
 
-    <nav v-if="this.items.length" class="filters">
-      <router-link class="filter" :to="{name: 'Home'}">
-        <strong class="name">Toutes</strong>
-        <span class="count">{{this.items.length}}</span>
-      </router-link>
-      <router-link class="filter" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
-        <strong class="name">{{category.name}}</strong>
-        <span class="count">{{category.count}}</span>
-      </router-link>
-    </nav>
+    <form class="filters">
+      <nav v-if="this.items.length" class="categories">
+        <router-link class="category" :to="{name: 'Home'}">
+          <strong class="name">Toutes</strong>
+          <span class="count">{{this.items.length}}</span>
+        </router-link>
+        <router-link class="category" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
+          <strong class="name">{{category.name}}</strong>
+          <span class="count">{{category.count}}</span>
+        </router-link>
+      </nav>
 
-    <transition-group class="list" v-if="getItems" tag="ul" appear name="fade">
-      <Item v-for="item in getItems" :item="item" :key="item.id"/>
-    </transition-group>
+      <vue-fuse placeholder="Rechercher..." class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
+    </form>
+
+    <ul class="list" v-if="getItems.length">
+      <Item v-for="item in getItems" :item="item"/>
+    </ul>
+    <p class="empty" v-else>
+      <strong>😕</strong>
+      <span>Aucune alternative trouvée...</span>
+      <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a>
+    </p>
   </main>
 </template>
 
@@ -34,12 +43,16 @@
       return {
         items: [],
         categories: [],
+        searchedItems: [],
       }
     },
     computed: {
       getItems() {
+        let items = this.items
+        // Filter if search
+        if (this.$store.state.search) items = this.searchedItems
         // Get items and their state
-        const items = this.items.map(item => {
+        items = items.map(item => {
           return {
             ...item,
             checked: this.$store.state.checkeds.includes(item.id),
@@ -96,6 +109,21 @@
       }, (err) => {
         err && console.error(err)
       })
+
+      // Search
+      this.$on('searchItems', results => {
+        this.searchedItems = results
+        // Todo: https://github.com/shayneo/vue-fuse/issues/18
+        this.$store.commit('search', {term: document.querySelector('[type="search"]').value})
+      })
+    },
+    watch: {
+      term() {
+        this.$search(this.term, this.bikes, this.options).then(results => {
+          this.$store.commit('search', {term: this.term})
+          this.searchedItems = results
+        })
+      }
     }
   }
 </script>
@@ -110,20 +138,28 @@
   .intro {
     opacity: .75;
     margin: 2vh 0 5vh;
+  }
 
-    a {
-      color: $green;
-      text-decoration: none;
-      border-bottom: 2px solid;
-      font-weight: bold;
-    }
+  .propose{
+    color: $green;
+    text-decoration: none;
+    border-bottom: 2px solid;
+    font-weight: bold;
   }
 
   .filters {
+    display: flex;
+    flex-wrap: wrap;
     margin: 5vh 0;
   }
 
-  .filter {
+  .categories {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+
+  .category {
     display: inline-block;
     margin-right: 1em;
     margin-bottom: .5em;
@@ -132,6 +168,25 @@
 
     &.router-link-exact-active {
       border-bottom-color: currentColor;
+    }
+  }
+
+  .search {
+    appearance: none;
+    border: 1px solid rgba(black,.1);
+    font: inherit;
+    border-radius: 3px;
+    font-size: .9em;
+    padding: .35em .75em .4em;
+    color: $text;
+
+    &::placeholder {
+      color: rgba($text,.35);
+    }
+
+    &:focus {
+      border-color: rgba($blue,.5);
+      outline: none;
     }
   }
 
@@ -146,5 +201,24 @@
     list-style: none;
     padding-left: 0;
     margin-bottom: 5vh;
+  }
+
+  .empty {
+    margin-bottom: 5vh;
+    background-color: rgba(black,.03);
+    padding: 1em;
+    border-radius: 3px;
+
+    strong {
+      float: left;
+      font-size: 2.1em;
+      margin-right: .35em;
+    }
+
+    span {
+      display: block;
+      opacity: .5;
+      font-size: .9em;
+    }
   }
 </style>
