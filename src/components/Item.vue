@@ -54,30 +54,13 @@
       },
       burst(e) {
         if (!this.$props.item.checked) {
-          const bounds = e.target.getBoundingClientRect()
-          const coords = {
-            x: bounds.x + bounds.width/2,
-            y: bounds.y + bounds.height/2
-          }
+          const bounds = e.currentTarget.getClientRects()[0]
 
-          const duration = 500
-          
-          const circle = new mojs.Shape({
-            left: 0, top: 0,
-            strokeWidth: 10,
-            radius: 100,
-            scale: { 0 : 1 },
-            opacity: { .2: 0 },
-            shape: 'circle',
-            fill: '#00cf4c',
-            duration: duration,
-            isForce3d: true,
-            isTimelineLess: true,
-            onComplete() { this.el.remove() }
-          })
+          const duration = 350
 
           const cloud = new mojs.Burst({
-            left: 0, top: 0,
+            parent: e.currentTarget,
+            left: bounds.width/2, top: bounds.height/2,
             radius: { 4: 49 },
             angle: 45,
             count: 12,
@@ -96,9 +79,10 @@
           })
 
           const burst = new mojs.Burst({
-            left: 0, top: 0,
+            parent: e.currentTarget,
+            left: bounds.width/2, top: bounds.height/2,
             count: 10,
-            radius: { 30: 100 },
+            radius: { 10: 60 },
             angle: 90,
             children: {
               shape: 'line',
@@ -107,7 +91,6 @@
               strokeLinecap: 'round',
               opacity: .5,
               radius: 25,
-              angle: {  0: 360  },
               scale: 1,
               scaleX: { 1: 0 },
               duration: duration,
@@ -117,12 +100,8 @@
           })
 
           const timeline = new mojs.Timeline()
-          .add( circle, cloud, burst )
-
-          circle.tune(coords)
-          cloud.tune(coords)
-          burst.tune(coords)
-          timeline.replay()
+          .add( cloud, burst )
+          .replay()
         }
       }
     }
@@ -142,7 +121,6 @@
     padding-left: 7.5em;
     position: relative;
     z-index: 1; // Each item above previous
-    overflow: hidden;
     transition: opacity 350ms;
 
     &.is-checked {
@@ -242,6 +220,7 @@
     cursor: pointer;
     outline: none;
     font-size: .9em;
+    position: relative;
 
     &:hover {
       background-color: rgba($green, .1);
