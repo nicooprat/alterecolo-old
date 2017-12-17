@@ -13,7 +13,7 @@
         Source
         <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></svg>
       </a>
-      <a class="expand" v-if="item.Lien" href="#" v-on:click.prevent="expand(item.id)">
+      <a class="expand" v-if="item.Lien" href="#" v-on:click.prevent="expand(item)">
         <span v-if="item.expanded">
           Moins d'infos
           <svg width="24" height="24" viewBox="0 0 24 24"><path transform="rotate(270) translate(-24,0)" fill="currentColor" d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
@@ -43,14 +43,11 @@
     computed: {},
     created() {},
     methods: {
-      expand(id) {
-        // Toggle visibility of clicked item description
-        const target = this.items.filter((item) => item.id === id)[0]
-        target.expanded = !target.expanded
+      expand(item) {
+        this.$store.commit('toggleExpandItem', {item})
       },
       check(item) {
-        // Toggle check state for clicked item
-        this.$store.commit('toggleItem', {item})
+        this.$store.commit('toggleCheckItem', {item})
       }
     }
   }
@@ -68,24 +65,15 @@
     padding: 1em;
     padding-left: 7.5em;
     position: relative;
+    z-index: 1; // Each item above previous
     overflow: hidden;
 
     &.is-checked {
       box-shadow: 0 0 0 1px rgba($green,.5), 0 1px 2px rgba($green,.25);
     }
 
-
-    &.fade-enter-active, .fade-leave-active {
-      transition: all 250ms;
-    }
-
-    &.fade-enter, .fade-leave-to {
-      opacity: 0;
-      transform: translateY(25%);
-    }
-
     &.fade-move {
-      transition: transform 250ms;
+      transition: all 350ms;
     }
   }
 

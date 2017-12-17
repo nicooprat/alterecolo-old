@@ -42,7 +42,8 @@
         const items = this.items.map(item => {
           return {
             ...item,
-            checked: this.$store.state.checkeds.includes(item.id)
+            checked: this.$store.state.checkeds.includes(item.id),
+            expanded: this.$store.state.expandeds.includes(item.id),
           }
         })
         // Home: all
