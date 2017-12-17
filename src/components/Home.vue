@@ -2,7 +2,7 @@
   <main class="home">
     <p class="intro">On souhaite tous <strong>améliorer nos habitudes</strong>, consommer de façon <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir clair. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...! <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a></p>
 
-    <template v-if="this.items.length">
+    <template v-if="datasLoaded">
       <form class="filters">
         <nav class="categories">
           <router-link class="category" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
@@ -11,10 +11,10 @@
           </router-link>
           <router-link class="category category--all" :to="{name: 'Home'}">
             <strong class="name">Toutes</strong>
-            <span class="count">{{this.items.length}}</span>
+            <span class="count">{{items.length}}</span>
           </router-link>
         </nav>
-        <vue-fuse placeholder="Rechercher..." tabindex="1" :saerch="this.$store.state.route.query.search" :value="this.$store.state.route.query.search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
+        <vue-fuse placeholder="Rechercher..." tabindex="1" :search="$store.state.route.query.search" :value="$store.state.route.query.search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold=".3" :includeScore="true"/>
 
         <nav class="sorts">
           <label class="sort">
@@ -24,6 +24,7 @@
           <label class="sort">
             <input type="radio" name="sort" id="date" :checked="isSort('date')" v-on:change="sort('date')">
             <span>Récents</span>
+            <span>Récentes</span>
           </label>
           <label class="sort">
             <input type="radio" name="sort" id="difficulty" :checked="isSort('difficulty')" v-on:change="sort('difficulty')">
@@ -58,32 +59,37 @@
     },
     data() {
       return {
+        datasLoaded: false,
         items: [],
         categories: [],
         searchedItems: [],
       }
     },
     computed: {
-      search() {
-        const search = this.$store.state.search
-        // Todo: https://github.com/shayneo/vue-fuse/issues/20
-        const input = this.$el.querySelector('[type="search"]')
-        if (input) input.value = search
-        return search
-      },
       getItems() {
-        let items = this.items
+        // Copy items
+        let items = []
+        // Filter if search
+        if (this.$store.state.route.query.search) {
+          items = this.searchedItems.map(item => {
+            return {
+              ...item.item,
+              score: item.score
+            }
+          })
+        }
         // Sort
         switch (this.$store.state.route.query.sort) {
-          case 'date':
-            items = items.sort((a,b) => a.createdTime > b.createdTime ? 1 : -1)
-          break;          
           case 'difficulty':
-            items = items.sort((a,b) => a.Difficulté > b.Difficulté ? 1 : -1)
+            items = items.sort((a, b) => a.Difficulté > b.Difficulté ? 1 : -1)
+          break;
+          case 'date':
+            items = items.sort((a, b) => a.createdTime > b.createdTime ? 1 : -1)
+          break;
+          default:
+            items = items.sort((a, b) => a.score > b.score ? 1 : -1)
           break;
         }
-        // Filter if search
-        if (this.$store.state.route.query.search) items = this.searchedItems
         // Get items and their state
         items = items.map(item => {
           return {
@@ -92,11 +98,13 @@
             expanded: this.$store.state.expandeds.includes(item.id),
           }
         })
-        // Home: all
-        if (this.$route.name === 'Home') return items
         // Category: filtered
-        const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]
-        return category && items.filter((item) => item.Catégorie.includes(category.name))
+        if (this.$route.name === 'Category') {
+          const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]
+          const items = category && items.filter((item) => item.Catégorie.includes(category.name))
+        }
+        // Get items
+        return items
       }
     },
     created() {
@@ -146,10 +154,29 @@
       })
     },
     mounted() {
-      // Search
+      // Get search term from URL
+      // Todo: https://github.com/shayneo/vue-fuse/issues/18
       const input = this.$el.querySelector('[type="search"]')
       if (input) input.value = this.$router.currentRoute.query.search
-      this.$on('searchItems', results => {
+      // Catch search events
+      this.$on('searchItems', results => this.getResults(results))
+    },
+    watch: {
+      datasLoaded() {
+        // Trigger search on page load
+        this.$search(this.$router.currentRoute.query.search, this.items, {
+          list: this.items,
+          keys: ['Alternative', 'Remplacé', 'Description'],
+          eventName: 'searchItems',
+          defaultAll: false,
+          shouldSort: true,
+          threshold: .3,
+          includeScore: true
+        }).then(results => this.getResults(results))
+      }
+    },
+    methods: {
+      getResults(results) {
         this.searchedItems = results
         // Todo: https://github.com/shayneo/vue-fuse/issues/18
         const search = this.$el.querySelector('[type="search"]').value
@@ -159,9 +186,7 @@
             search: search || undefined
           }
         })
-      })
-    },
-    methods: {
+      },
       sort(sort) {
         this.$router.replace({
           query: {
@@ -272,7 +297,9 @@
 
     span {
       font-weight: bold;
-      font-size: .9em;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-size: .75em;
       opacity: .5;      
     }
   }
