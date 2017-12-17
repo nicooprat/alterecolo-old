@@ -14,10 +14,10 @@
         </router-link>
       </nav>
 
-      <vue-fuse placeholder="Rechercher..." class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
+      <vue-fuse placeholder="Rechercher..." :search="search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
     </form>
 
-    <ul class="list" v-if="getItems.length">
+    <ul class="list" v-if="getItems && getItems.length">
       <Item v-for="item in getItems" :item="item"/>
     </ul>
     <p class="empty" v-else>
@@ -47,6 +47,13 @@
       }
     },
     computed: {
+      search() {
+        const search = this.$store.state.search
+        // Todo: https://github.com/shayneo/vue-fuse/issues/20
+        const input = document.querySelector('[type="search"]')
+        if (input) input.value = search
+        return search
+      },
       getItems() {
         let items = this.items
         // Filter if search
@@ -114,16 +121,14 @@
       this.$on('searchItems', results => {
         this.searchedItems = results
         // Todo: https://github.com/shayneo/vue-fuse/issues/18
-        this.$store.commit('search', {term: document.querySelector('[type="search"]').value})
-      })
-    },
-    watch: {
-      term() {
-        this.$search(this.term, this.bikes, this.options).then(results => {
-          this.$store.commit('search', {term: this.term})
-          this.searchedItems = results
+        const term = document.querySelector('[type="search"]').value
+        this.$store.commit('search', {term})
+        this.$router.replace({
+          query: term && {
+            search: term
+          }
         })
-      }
+      })
     }
   }
 </script>
@@ -166,8 +171,12 @@
     text-decoration: none;
     border-bottom: 2px solid transparent;
 
-    &.router-link-exact-active {
+    &.router-link-active {
       border-bottom-color: currentColor;
+    }
+
+    &:first-child:not(.router-link-exact-active) {
+      border-bottom: none;
     }
   }
 

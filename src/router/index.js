@@ -23,6 +23,7 @@ const router = new Router({
 
 router.afterEach(function(to, from, next) {
   store.state.expandeds.length && store.commit('collapseAll')
+  if (to.path !== from.path && store.state.search) store.commit('clearSearch')
 })
 
 export default router

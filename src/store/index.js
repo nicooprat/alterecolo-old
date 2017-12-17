@@ -44,6 +44,9 @@ export default new Vuex.Store({
     },
     search(state, {term}) {
       state.search = term
+    },
+    clearSearch(state) {
+      state.search = ''
     }
   }
 })
