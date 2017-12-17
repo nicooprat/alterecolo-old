@@ -46,6 +46,7 @@
 
 <script>
   import Airtable from 'airtable'
+  import bugsnag from '@/config/errors'
   import Item from '@/components/Item'
 
   const base = new Airtable({apiKey: 'keycOP14E2tfhJ9fI'}).base('appI12batrjUkkAdC')
@@ -140,7 +141,8 @@
         // Load all datas
         fetchNextPage()
       }, (err) => {
-        err && console.error(err)
+        this.datasLoaded = true
+        err && bugsnag.notify(new Error(err))
       })
     },
     mounted() {
