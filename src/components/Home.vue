@@ -2,29 +2,31 @@
   <main class="home">
     <p class="intro">On souhaite tous <strong>améliorer nos habitudes</strong>, consommer de façon <strong>éthique</strong>, remplacer nos <strong>produits polluants</strong>, réduire nos <strong>déchets</strong>... Mais il est parfois difficile d'y voir clair. Voici une <strong>liste participative</strong> des alternatives proposées par d'autres personnes comme vous...! <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a></p>
 
-    <form class="filters">
-      <nav v-if="this.items.length" class="categories">
-        <router-link class="category" :to="{name: 'Home'}">
-          <strong class="name">Toutes</strong>
-          <span class="count">{{this.items.length}}</span>
-        </router-link>
-        <router-link class="category" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
-          <strong class="name">{{category.name}}</strong>
-          <span class="count">{{category.count}}</span>
-        </router-link>
-      </nav>
+    <template v-if="this.items.length">
+      <form class="filters">
+        <nav class="categories">
+          <router-link class="category" :to="{name: 'Home'}">
+            <strong class="name">Toutes</strong>
+            <span class="count">{{this.items.length}}</span>
+          </router-link>
+          <router-link class="category" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
+            <strong class="name">{{category.name}}</strong>
+            <span class="count">{{category.count}}</span>
+          </router-link>
+        </nav>
 
-      <vue-fuse placeholder="Rechercher..." :search="search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
-    </form>
+        <vue-fuse placeholder="Rechercher..." tabindex="1" :search="search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
+      </form>
 
-    <ul class="list" v-if="getItems && getItems.length">
-      <Item v-for="item in getItems" :item="item"/>
-    </ul>
-    <p class="empty" v-else>
-      <strong>😕</strong>
-      <span>Aucune alternative trouvée...</span>
-      <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a>
-    </p>
+      <ul class="list" v-if="getItems && getItems.length">
+        <Item v-for="item in getItems" :item="item"/>
+      </ul>
+      <p class="empty" v-else>
+        <strong>😕</strong>
+        <span>Aucune alternative trouvée...</span>
+        <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a>
+      </p>
+    </template>
   </main>
 </template>
 
