@@ -13,7 +13,7 @@
         Source
         <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></svg>
       </a>
-      <a class="expand" v-if="item.Lien" href="#" v-on:click.prevent="expand(item)">
+      <a class="expand" v-if="item.Description" href="#" v-on:click.prevent="expand(item)">
         <span v-if="item.expanded">
           Moins d'infos
           <svg width="24" height="24" viewBox="0 0 24 24"><path transform="rotate(270) translate(-24,0)" fill="currentColor" d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
@@ -30,7 +30,7 @@
         </span>
       </button>
     </nav>
-    <span v-show="item.expanded" class="desc">
+    <span v-if="item.Description" v-show="item.expanded" class="desc">
       <span>{{item.Description}}</span>
     </span>
   </li>
