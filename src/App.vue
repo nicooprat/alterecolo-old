@@ -157,4 +157,9 @@
       }
     }
   }
+
+  [data-name="mojs-shape"] {
+    z-index: 999;
+    pointer-events: none;
+  }
 </style>
