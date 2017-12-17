@@ -23,6 +23,9 @@ const router = new Router({
 
 router.afterEach(function(to, from, next) {
   store.state.expandeds.length && store.commit('collapseAll')
+  // Empty search input
+  // Todo: https://github.com/shayneo/vue-fuse/issues/18  
+  document.querySelector('[type="search"]').value = ''
 })
 
 export default router

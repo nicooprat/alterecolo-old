@@ -23,7 +23,6 @@
           </label>
           <label class="sort">
             <input type="radio" name="sort" id="date" :checked="isSort('date')" v-on:change="sort('date')">
-            <span>Récents</span>
             <span>Récentes</span>
           </label>
           <label class="sort">
@@ -68,7 +67,7 @@
     computed: {
       getItems() {
         // Copy items
-        let items = []
+        let items = this.items
         // Filter if search
         if (this.$store.state.route.query.search) {
           items = this.searchedItems.map(item => {
@@ -101,7 +100,7 @@
         // Category: filtered
         if (this.$route.name === 'Category') {
           const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]
-          const items = category && items.filter((item) => item.Catégorie.includes(category.name))
+          items = category && items.filter((item) => item.Catégorie.includes(category.name))
         }
         // Get items
         return items
