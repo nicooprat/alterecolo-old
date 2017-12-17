@@ -80,13 +80,13 @@
         // Sort
         switch (this.$store.state.route.query.sort) {
           case 'difficulty':
-            items = items.sort((a, b) => a.Difficulté > b.Difficulté ? 1 : -1)
+            items = items.sort((a, b) => a.Difficulté - b.Difficulté)
             break
           case 'date':
-            items = items.sort((a, b) => a.createdTime > b.createdTime ? 1 : -1)
+            items = items.sort((a, b) => a.createdTime - b.createdTime)
             break
           default:
-            items = items.sort((a, b) => a.score > b.score ? 1 : -1)
+            items = items.sort((a, b) => a.score - b.score)
             break
         }
         // Get items and their state
