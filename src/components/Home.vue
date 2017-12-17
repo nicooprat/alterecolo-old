@@ -5,13 +5,13 @@
     <template v-if="this.items.length">
       <form class="filters">
         <nav class="categories">
-          <router-link class="category" :to="{name: 'Home'}">
-            <strong class="name">Toutes</strong>
-            <span class="count">{{this.items.length}}</span>
-          </router-link>
           <router-link class="category" v-for="category in categories" :to="{name: 'Category', params: {category: category.slug}}">
             <strong class="name">{{category.name}}</strong>
             <span class="count">{{category.count}}</span>
+          </router-link>
+          <router-link class="category category--all" :to="{name: 'Home'}">
+            <strong class="name">Toutes</strong>
+            <span class="count">{{this.items.length}}</span>
           </router-link>
         </nav>
 
@@ -161,24 +161,30 @@
   }
 
   .categories {
+    display: flex;
+    flex-wrap: wrap;
     flex: 0 0 auto;
+    align-items: center;
     width: 100%;
     margin-bottom: 1em;
   }
 
   .category {
-    display: inline-block;
     margin-right: 1em;
     margin-bottom: .5em;
     text-decoration: none;
     border-bottom: 2px solid transparent;
 
+    &--all {
+      order: -1;
+    }
+
     &.router-link-active {
       border-bottom-color: currentColor;
     }
 
-    &:first-child:not(.router-link-exact-active) {
-      border-bottom: none;
+    &.router-link-active ~ &--all {
+      border-bottom-color: transparent;
     }
   }
 
