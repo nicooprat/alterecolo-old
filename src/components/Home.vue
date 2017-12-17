@@ -86,7 +86,7 @@
             items = items.sort((a, b) => a.createdTime > b.createdTime ? 1 : -1)
             break
           default:
-            items = items.sort((a, b) => a.score > b.score ? 1 : -1)
+            if (this.$store.state.search) items = items.sort((a, b) => a.score > b.score ? 1 : -1)
             break
         }
         // Get items and their state
