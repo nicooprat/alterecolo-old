@@ -118,6 +118,11 @@ const webpackConfig = merge(baseWebpackConfig, {
         from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
+      },
+      {
+        // Netlify https://www.netlify.com/docs/redirects/#history-pushstate-and-single-page-apps
+        from: path.resolve(__dirname, '../_redirects'),
+        to: path.resolve(__dirname, '../dist/')
       }
     ])
   ]
