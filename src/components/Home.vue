@@ -14,8 +14,22 @@
             <span class="count">{{this.items.length}}</span>
           </router-link>
         </nav>
+        <vue-fuse placeholder="Rechercher..." tabindex="1" :saerch="this.$store.state.route.query.search" :value="this.$store.state.route.query.search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
 
-        <vue-fuse placeholder="Rechercher..." tabindex="1" :search="search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3"/>
+        <nav class="sorts">
+          <label class="sort">
+            <input type="radio" name="sort" id="default" :checked="isSort('')" v-on:change="sort('')">
+            <span>Par défaut</span>
+          </label>
+          <label class="sort">
+            <input type="radio" name="sort" id="date" :checked="isSort('date')" v-on:change="sort('date')">
+            <span>Récents</span>
+          </label>
+          <label class="sort">
+            <input type="radio" name="sort" id="difficulty" :checked="isSort('difficulty')" v-on:change="sort('difficulty')">
+            <span>Faciles</span>
+          </label>
+        </nav>
       </form>
 
       <ul class="list" v-if="getItems && getItems.length">
@@ -52,14 +66,23 @@
       search() {
         const search = this.$store.state.search
         // Todo: https://github.com/shayneo/vue-fuse/issues/20
-        const input = document.querySelector('[type="search"]')
+        const input = this.$el.querySelector('[type="search"]')
         if (input) input.value = search
         return search
       },
       getItems() {
         let items = this.items
+        // Sort
+        switch (this.$store.state.route.query.sort) {
+          case 'date':
+            items = items.sort((a,b) => a.createdTime > b.createdTime ? 1 : -1)
+          break;          
+          case 'difficulty':
+            items = items.sort((a,b) => a.Difficulté > b.Difficulté ? 1 : -1)
+          break;
+        }
         // Filter if search
-        if (this.$store.state.search) items = this.searchedItems
+        if (this.$store.state.route.query.search) items = this.searchedItems
         // Get items and their state
         items = items.map(item => {
           return {
@@ -85,12 +108,13 @@
         // Load items in component
         this.items.push(...items.map((item) => {
           const newItem = {
+            ...item.fields,
             id: item.id,
+            createdTime: item._rawJson.createdTime,
             cover: item.fields.Photo && item.fields.Photo[0], // Easier access
             expanded: false, // Toggle visibility, must be declared to be reactive
             checked: false, // Toggle checked, must be declared to be reactive
             categories: [],
-            ...item.fields,
           }
           // Push item categories
           item.fields.Catégorie.forEach((category) => {
@@ -118,19 +142,38 @@
       }, (err) => {
         err && console.error(err)
       })
-
+    },
+    mounted() {
       // Search
+      const input = this.$el.querySelector('[type="search"]')
+      if (input) input.value = this.$router.currentRoute.query.search
       this.$on('searchItems', results => {
         this.searchedItems = results
         // Todo: https://github.com/shayneo/vue-fuse/issues/18
-        const term = document.querySelector('[type="search"]').value
-        this.$store.commit('search', {term})
+        const search = this.$el.querySelector('[type="search"]').value
         this.$router.replace({
-          query: term && {
-            search: term
+          query: {
+            ...this.$router.currentRoute.query,
+            search: search || undefined
           }
         })
       })
+    },
+    methods: {
+      sort(sort) {
+        this.$router.replace({
+          query: {
+            ...this.$router.currentRoute.query,
+            sort: sort || undefined
+          }
+        })
+      },
+      isSort(sort) {
+        // Default sort
+        if (!sort && !this.$store.state.route.query.sort) return true
+        // Match sort
+        return this.$store.state.route.query.sort === sort
+      }
     }
   }
 </script>
@@ -204,6 +247,31 @@
     &:focus {
       border-color: rgba($blue,.5);
       outline: none;
+    }
+  }
+
+  .sorts {
+    display: flex;
+    align-items: center;
+  }
+
+  .sort {
+    margin-left: 1em;
+    cursor: pointer;
+    
+    input {
+      position: absolute;
+      visibility: hidden;
+
+      &:checked ~ span {
+        opacity: 1;
+      }
+    }
+
+    span {
+      font-weight: bold;
+      font-size: .9em;
+      opacity: .5;      
     }
   }
 

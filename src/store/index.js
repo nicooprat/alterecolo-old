@@ -12,7 +12,6 @@ export default new Vuex.Store({
     checkeds: [],
     expandeds: [],
     score: 0,
-    search: ''
   },
   mutations: {
     toggleCheckItem (state, {item}) {
@@ -41,12 +40,6 @@ export default new Vuex.Store({
     },
     collapseAll(state) {
       state.expandeds.splice(0, state.expandeds.length)
-    },
-    search(state, {term}) {
-      state.search = term
-    },
-    clearSearch(state) {
-      state.search = ''
     }
   }
 })

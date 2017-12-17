@@ -4,9 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import { sync } from 'vuex-router-sync'
 import VueFuse from 'vue-fuse'
 import bugsnag from 'bugsnag-js'
 import bugsnagVue from 'bugsnag-vue'
+
+sync(store, router) 
 
 const bugsnagClient = bugsnag(settings.bugsnag)
 bugsnagClient.use(bugsnagVue(Vue))
