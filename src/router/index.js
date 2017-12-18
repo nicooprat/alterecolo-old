@@ -14,6 +14,11 @@ const router = new Router({
       component: Home
     },
     {
+      path: '/alternative/:slug/:id',
+      name: 'Details',
+      component: Home
+    },
+    {
       path: '/:category',
       name: 'Category',
       component: Home

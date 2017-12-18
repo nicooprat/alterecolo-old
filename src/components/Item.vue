@@ -6,22 +6,13 @@
       <svg v-for="n in 3" :class="{off: item.Difficulté < n}" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"/></svg>
     </span>
     <small class="subtitle">{{item.Remplacé}}</small>
-    <strong class="title">{{item.Alternative}}</strong>
+    <router-link class="title" :to="{name: 'Details', params: {slug: item.slug, id: item.id}}">{{item.Alternative}}</router-link>
     <nav class="links">
       <router-link class="category" v-for="category in item.categories" :key="category.slug" :to="{name: 'Category', params: {category: category.slug}}">{{category.name}}</router-link>          
       <a class="source" v-if="item.Lien" :href="item.Lien">
         Source
         <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></svg>
       </a>
-      <a class="expand" v-if="item.Description" href="#" v-on:click.prevent="expand(item)">
-        <span v-if="item.expanded">
-          Moins d'infos
-          <svg width="24" height="24" viewBox="0 0 24 24"><path transform="rotate(270) translate(-24,0)" fill="currentColor" d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
-        </span>
-        <span v-else>
-          Plus d'infos
-          <svg width="24" height="24" viewBox="0 0 24 24"><path transform="rotate(90) translate(0,-24)" fill="currentColor" d="M8.122 24l-4.122-4 8-8-8-8 4.122-4 11.878 12z"/></svg>
-        </span>
       </a>
       <button class="check" v-on:click.prevent="check($event, item)" type="button">
         <span>
@@ -30,9 +21,6 @@
         </span>
       </button>
     </nav>
-    <span v-if="item.Description" v-show="item.expanded" class="desc">
-      <span>{{item.Description}}</span>
-    </span>
   </li>
 </template>
 
@@ -170,16 +158,33 @@
   .title {
     display: block;
     font-size: 1.25em;
+    color: inherit;
+    text-decoration: none;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 0;
+      border-radius: 3;
+      transition: box-shadow 250ms;
+    }
+
+    &:hover:before {
+      box-shadow: 0 2px 10px rgba(black,.15);
+    }
   }
 
   .links {
     display: flex;
     align-items: center;
     font-size: .9em;
-
+    
     > a {
       margin-right: 1em;
       text-decoration: none;
+      position: relative;
+      z-index: 1; // Above other links
 
       svg {
         width: 0.7em; height: 0.7em;
@@ -221,6 +226,7 @@
     outline: none;
     font-size: .9em;
     position: relative;
+    z-index: 1; // Above other links
 
     &:hover {
       background-color: rgba($green, .1);
