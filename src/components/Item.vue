@@ -48,16 +48,17 @@
 
           const cloud = new mojs.Burst({
             parent: e.currentTarget,
-            left: bounds.width/2, top: bounds.height/2,
+            left: bounds.width / 2,
+            top: bounds.height / 2,
             radius: { 4: 49 },
             angle: 45,
             count: 12,
             children: {
               radius: 10,
               fill: '#00cf4c',
-              opacity: .2,
+              opacity: 0.2,
               scale: { 1: 0, easing: 'sin.in' },
-              pathScale: [ .7, null ],
+              pathScale: [ 0.7, null ],
               degreeShift: [ 13, null ],
               duration: [ 500, 700 ],
               isShowEnd: false,
@@ -68,7 +69,8 @@
 
           const burst = new mojs.Burst({
             parent: e.currentTarget,
-            left: bounds.width/2, top: bounds.height/2,
+            left: bounds.width / 2,
+            top: bounds.height / 2,
             count: 10,
             radius: { 10: 60 },
             angle: 90,
@@ -77,7 +79,7 @@
               stroke: '#00cf4c',
               strokeWidth: 2,
               strokeLinecap: 'round',
-              opacity: .5,
+              opacity: 0.5,
               radius: 25,
               scale: 1,
               scaleX: { 1: 0 },
@@ -87,8 +89,8 @@
             onComplete() { this.el.remove() }
           })
 
-          const timeline = new mojs.Timeline()
-          .add( cloud, burst )
+          new mojs.Timeline()
+          .add(cloud, burst)
           .replay()
         }
       }
