@@ -52,6 +52,7 @@
     font-size: 16px;
     color: $text;
     background-color: #fcfcfb;
+    scroll-behavior: smooth;
   }
 
   #app {
