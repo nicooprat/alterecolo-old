@@ -11,7 +11,22 @@
           <span class="count">{{items.length}}</span>
         </router-link>
       </nav>
-      <vue-fuse placeholder="Rechercher..." tabindex="1" :search="$store.state.route.query.search" :value="$store.state.route.query.search" class="search" :keys="['Alternative', 'Remplacé', 'Description']" :list="items" eventName="searchItems" :defaultAll="false" :shouldSort="true" :threshold="0.3" :includeScore="true"/>
+
+      <vue-fuse
+        placeholder="Rechercher..."
+        tabindex="1"
+        :search="$store.state.route.query.search"
+        :value="$store.state.route.query.search"
+        class="search"
+        :keys="['Alternative', 'Remplacé', 'Description']"
+        :list="items"
+        eventName="searchItems"
+        inputChangeEventName="searchChanged"
+        :defaultAll="false"
+        :shouldSort="true"
+        :threshold="0.3"
+        :includeScore="true"
+        @esc="$route.query.search = ''"/>
 
       <nav class="sorts">
         <label class="sort">
@@ -104,7 +119,17 @@
       const search = this.$router.currentRoute.query.search
       if (input && search) input.value = search
       // Catch search events
-      this.$on('searchItems', results => this.getResults(results))
+      this.$on('searchItems', results => {
+        this.searchedItems = results
+      })
+      this.$on('searchChanged', search => {
+        this.$router.replace({
+          query: {
+            ...this.$router.currentRoute.query,
+            search: search || undefined
+          }
+        })
+      })
       // Trigger search on page load
       this.$search(this.$router.currentRoute.query.search, this.items, {
         list: this.items,
@@ -114,20 +139,11 @@
         shouldSort: true,
         threshold: 0.3,
         includeScore: true
-      }).then(results => this.getResults(results))
+      }).then(results => {
+        this.searchedItems = results
+      })
     },
     methods: {
-      getResults(results) {
-        this.searchedItems = results
-        // Todo: https://github.com/shayneo/vue-fuse/issues/18
-        const search = this.$el.querySelector('[type="search"]').value
-        this.$router.replace({
-          query: {
-            ...this.$router.currentRoute.query,
-            search: search || undefined
-          }
-        })
-      },
       sort(sort) {
         this.$router.replace({
           query: {
