@@ -9,7 +9,7 @@
     <br>
     © {{new Date().getFullYear()}} Les contenus sont la propriété de leurs auteurs respectifs.
     <br>
-    <a href="https://github.com/nicooprat/alterecolo">Code disponible</a> sous license MIT. <a href="mailto:contact@alterecolo.fr">Contact</a>
+    <a href="https://github.com/nicooprat/alterecolo">Code disponible</a> sous license MIT. <a href="mailto:contact@alterecolo.fr">Contact</a>                              
   </footer>
 </template>
 
@@ -36,9 +36,11 @@
     }
 
     a {
+      display: inline-block;
       color: inherit;
       text-decoration: none;
       border-bottom: 1px solid;
+      white-space: nowrap;
 
       &:hover {
         color: $blue;

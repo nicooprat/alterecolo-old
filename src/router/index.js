@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import store from '../store'
 
 Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    return savedPosition || {x: 0, y: 0}
+    return savedPosition || (to.hash && {selector: to.hash}) || {x: 0, y: 0}
   },
   routes: [
     {

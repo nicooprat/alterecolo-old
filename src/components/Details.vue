@@ -1,6 +1,6 @@
 <template>
   <article v-if="item">
-    <Item :item="item"/>
+    <Item :item="item" :key="item.id"/>
     <blockquote>
       <p>{{item.Description}}</p>
       <cite v-if="item.Lien">
@@ -27,7 +27,11 @@
     },
     props: ['item'],
     computed: {},
-    created() {},
+    mounted() {
+      // Update Disqus comments counts
+      /* global DISQUSWIDGETS */
+      DISQUSWIDGETS && DISQUSWIDGETS.getCount({reset: true})
+    },
     methods: {}
   }
 </script>

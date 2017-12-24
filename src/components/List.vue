@@ -105,11 +105,16 @@
     },
     created() {},
     mounted() {
+      // Update Disqus comments counts
+      /* global DISQUSWIDGETS */
+      DISQUSWIDGETS && DISQUSWIDGETS.getCount({reset: true})
+
       // Get search term from URL
       // Todo: https://github.com/shayneo/vue-fuse/issues/18
       const input = this.$el.querySelector('[type="search"]')
       const search = this.$router.currentRoute.query.search
       if (input && search) input.value = search
+
       // Catch search events
       this.$on('searchItems', results => {
         this.searchedItems = results
@@ -122,6 +127,7 @@
           }
         })
       })
+
       // Trigger search on page load
       this.$search(this.$router.currentRoute.query.search, this.items, {
         list: this.items,
@@ -218,7 +224,7 @@
   .sort {
     margin-left: 1em;
     cursor: pointer;
-    
+
     input {
       position: absolute;
       visibility: hidden;
@@ -233,7 +239,7 @@
       text-transform: uppercase;
       letter-spacing: .05em;
       font-size: .75em;
-      opacity: .5;      
+      opacity: .5;
     }
   }
 

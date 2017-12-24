@@ -46,8 +46,6 @@
             slug: item.fields.Alternative.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(' ').join('-').toLowerCase(),
             createdTime: item._rawJson.createdTime,
             cover: item.fields.Photo && item.fields.Photo[0], // Easier access
-            expanded: false, // Toggle visibility, must be declared to be reactive
-            checked: false, // Toggle checked, must be declared to be reactive
             categories: [],
           }
           // Push item categories
