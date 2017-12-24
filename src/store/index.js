@@ -11,8 +11,14 @@ export default new Vuex.Store({
   state: {
     checkeds: [],
     score: 0,
+    items: [],
+    categories: []
   },
   mutations: {
+    setDatas(state, {items, categories}) {
+      state.items = items
+      state.categories = categories
+    },
     toggleCheckItem (state, {item}) {
       // Already checked?
       const index = state.checkeds.indexOf(item.id)

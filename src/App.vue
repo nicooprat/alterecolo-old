@@ -2,6 +2,7 @@
   <div id="app">
     <Head/>
     <Score/>
+    <Home v-if="$route.name !== 'Details'"/>
     <transition name="fade" mode="out-in">
       <router-view/>
     </transition>
@@ -10,6 +11,7 @@
 </template>
 
 <script>
+  import Home from '@/components/Home'
   import Head from '@/components/Head'
   import Score from '@/components/Score'
   import Foot from '@/components/Foot'
@@ -17,10 +19,21 @@
   export default {
     name: 'app',
     components: {
+      Home,
       Head,
       Score,
       Foot
-    }
+    },
+    computed: {},
+    created() {},
+    mounted() {
+      // Get search term from URL
+      // Todo: https://github.com/shayneo/vue-fuse/issues/18
+      const input = this.$el.querySelector('[type="search"]')
+      if (input) input.value = this.$router.currentRoute.query.search
+      // Catch search events
+      this.$on('searchItems', results => this.getResults(results))
+    },
   }
 </script>
 
@@ -33,25 +46,8 @@
 
   @import './scss/vars';
 
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s ease;
-  }
-  .fade-enter, .fade-leave-active {
-    opacity: 0
-  }
-  .child-view {
-    position: absolute;
-    transition: all .5s cubic-bezier(.55,0,.1,1);
-  }
-  .slide-left-enter, .slide-right-leave-active {
-    opacity: 0;
-    -webkit-transform: translate(30px, 0);
-    transform: translate(30px, 0);
-  }
-  .slide-left-leave-active, .slide-right-enter {
-    opacity: 0;
-    -webkit-transform: translate(-30px, 0);
-    transform: translate(-30px, 0);
+  [class*="move"] {
+    transition: transform 1s;
   }
 
   * {
@@ -83,7 +79,7 @@
 
   a {
     color: $blue;
-    
+
     &:hover {
       color: mix(white, $blue, 40);
     }

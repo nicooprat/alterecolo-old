@@ -44,8 +44,8 @@
       </nav>
     </form>
 
-    <ul class="list" v-if="getItems && getItems.length">
-      <Item v-for="item in getItems" :item="item" :key="item.id"/>
+    <ul class="list" v-if="filteredItems && filteredItems.length">
+      <Item v-for="item in filteredItems" :item="item" :key="item.id"/>
     </ul>
     <p class="empty" v-else>
       <strong>🍃</strong>
@@ -70,7 +70,7 @@
       }
     },
     computed: {
-      getItems() {
+      filteredItems() {
         // Copy items
         let items = this.items
         // Filter if search
