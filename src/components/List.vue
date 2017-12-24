@@ -94,14 +94,6 @@
             if (this.$store.state.search) items = items.sort((a, b) => a.score > b.score ? 1 : -1)
             break
         }
-        // Get items and their state
-        items = items.map(item => {
-          return {
-            ...item,
-            checked: this.$store.state.checkeds.includes(item.id),
-            expanded: this.$store.state.expandeds.includes(item.id),
-          }
-        })
         // Category: filtered
         if (this.$route.name === 'Category') {
           const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]

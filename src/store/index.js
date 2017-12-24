@@ -10,7 +10,6 @@ export default new Vuex.Store({
   })],
   state: {
     checkeds: [],
-    expandeds: [],
     score: 0,
   },
   mutations: {
@@ -27,19 +26,5 @@ export default new Vuex.Store({
         state.checkeds.splice(index, 1)
       }
     },
-    toggleExpandItem (state, {item}) {
-      // Already checked?
-      const index = state.expandeds.indexOf(item.id)
-      if (index === -1) {
-        // Push
-        state.expandeds.push(item.id)
-      } else {
-        // Pull
-        state.expandeds.splice(index, 1)
-      }
-    },
-    collapseAll(state) {
-      state.expandeds.splice(0, state.expandeds.length)
-    }
   }
 })

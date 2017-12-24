@@ -1,5 +1,5 @@
 <template>
-  <li :class="['item', {'is-checked': item.checked}]">
+  <li :class="['item', {'is-checked': checked}]">
     <img class="cover" v-if="item.cover" :src="item.cover.thumbnails.large.url" :alt="item.Alternative" :width="item.cover.thumbnails.large.width" :height="item.cover.thumbnails.large.height">
     <span class="cover" v-else></span>
     <span v-if="item.Difficulté" class="difficulty">
@@ -30,7 +30,11 @@
   export default {
     name: 'Item',
     props: ['item'],
-    computed: {},
+    computed: {
+      checked() {
+        return this.$store.state.checkeds.includes(this.item.id)
+      }
+    },
     created() {},
     methods: {
       expand(item) {
@@ -41,7 +45,7 @@
         this.burst(e)
       },
       burst(e) {
-        if (!this.$props.item.checked) {
+        if (this.checked) {
           const bounds = e.currentTarget.getClientRects()[0]
 
           const duration = 350
