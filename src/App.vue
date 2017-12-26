@@ -3,9 +3,7 @@
     <Head/>
     <Score/>
     <Home v-if="$route.name !== 'Details'"/>
-    <transition name="fade" mode="out-in">
-      <router-view/>
-    </transition>
+    <router-view/>
     <Foot/>
   </div>
 </template>
@@ -46,10 +44,6 @@
 
   @import './scss/vars';
 
-  [class*="move"] {
-    transition: transform 1s;
-  }
-
   * {
     line-height: 1.418;
     -webkit-font-smoothing: antialiased;
@@ -61,7 +55,6 @@
     font-size: 16px;
     color: $text;
     background-color: #fcfcfb;
-    scroll-behavior: smooth;
   }
 
   #app {
