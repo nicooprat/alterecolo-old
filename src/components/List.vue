@@ -15,18 +15,9 @@
       <vue-fuse
         placeholder="Rechercher..."
         tabindex="1"
-        :search="$store.state.route.query.search"
-        :value="$store.state.route.query.search"
         class="search"
-        :keys="['Alternative', 'Remplacé', 'Description']"
-        :list="items"
-        eventName="searchItems"
-        inputChangeEventName="searchChanged"
-        :defaultAll="false"
-        :shouldSort="true"
-        :threshold="0.3"
-        :includeScore="true"
-        @esc="$route.query.search = ''"/>
+        :search="$store.state.route.query.search"
+        v-bind="searchOptions"/>
 
       <nav class="sorts">
         <label class="sort">
@@ -57,16 +48,28 @@
 
 <script>
   import Item from '@/components/Item'
+  import VueFuse from '@/components/VueFuse'
 
   export default {
     name: 'List',
     components: {
       Item,
+      VueFuse,
     },
     props: ['items', 'categories'],
     data() {
       return {
         searchedItems: [],
+        searchOptions: {
+          list: this.items,
+          keys: ['Alternative', 'Remplacé', 'Description'],
+          eventName: 'searchItems',
+          inputChangeEventName: 'searchChanged',
+          defaultAll: false,
+          shouldSort: true,
+          threshold: 0.3,
+          includeScore: true,
+        }
       }
     },
     computed: {
@@ -109,12 +112,6 @@
       /* global DISQUSWIDGETS */
       DISQUSWIDGETS && DISQUSWIDGETS.getCount({reset: true})
 
-      // Get search term from URL
-      // Todo: https://github.com/shayneo/vue-fuse/issues/18
-      const input = this.$el.querySelector('[type="search"]')
-      const search = this.$router.currentRoute.query.search
-      if (input && search) input.value = search
-
       // Catch search events
       this.$on('searchItems', results => {
         this.searchedItems = results
@@ -129,15 +126,7 @@
       })
 
       // Trigger search on page load
-      this.$search(this.$router.currentRoute.query.search, this.items, {
-        list: this.items,
-        keys: ['Alternative', 'Remplacé', 'Description'],
-        eventName: 'searchItems',
-        defaultAll: false,
-        shouldSort: true,
-        threshold: 0.3,
-        includeScore: true
-      }).then(results => {
+      this.$search(this.$router.currentRoute.query.search, this.items, this.searchOptions).then(results => {
         this.searchedItems = results
       })
     },

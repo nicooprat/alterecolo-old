@@ -99,13 +99,4 @@ router.onReady(function(to, from, next) {
   })
 })
 
-router.afterEach(function(to, from, next) {
-  // Empty search input
-  // Todo: https://github.com/shayneo/vue-fuse/issues/18
-  if (to.path !== from.path) {
-    const search = document.querySelector('[type="search"]')
-    if (search) search.value = ''
-  }
-})
-
 export default router

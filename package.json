@@ -17,6 +17,7 @@
     "airtable": "^0.5.1",
     "bugsnag-js": "^4.0.3",
     "bugsnag-vue": "^1.0.1",
+    "fuse.js": "^3.2.0",
     "mo-js": "^0.288.2",
     "normalize.css": "^7.0.0",
     "rfs": "^5.0.2",

@@ -24,14 +24,7 @@
     },
     computed: {},
     created() {},
-    mounted() {
-      // Get search term from URL
-      // Todo: https://github.com/shayneo/vue-fuse/issues/18
-      const input = this.$el.querySelector('[type="search"]')
-      if (input) input.value = this.$router.currentRoute.query.search
-      // Catch search events
-      this.$on('searchItems', results => this.getResults(results))
-    },
+    mounted() {},
   }
 </script>
 
