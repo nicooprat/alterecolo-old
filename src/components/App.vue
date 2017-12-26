@@ -47,7 +47,7 @@
     font-family: 'Lato', Helvetica, Arial, sans-serif;
     font-size: 16px;
     color: $text;
-    background-color: #fcfcfb;
+    background-color: $background;
   }
 
   #app {
@@ -56,6 +56,15 @@
     margin: auto;
     position: relative;
     @include rfs(18);
+
+    @media(min-width: $break) {
+      position: relative;
+      left: 10em;
+    }
+
+    @media (max-width: 520px) {
+      font-size: 16px !important;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {

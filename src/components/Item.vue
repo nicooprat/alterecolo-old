@@ -20,7 +20,7 @@
       <button class="check" v-on:click.prevent="check($event, item)" v-ga="$ga.commands.toggleCheck.bind(this, item.id)" type="button">
         <span>
           <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M23.334 11.96c-.713-.726-.872-1.829-.393-2.727.342-.64.366-1.401.064-2.062-.301-.66-.893-1.142-1.601-1.302-.991-.225-1.722-1.067-1.803-2.081-.059-.723-.451-1.378-1.062-1.77-.609-.393-1.367-.478-2.05-.229-.956.347-2.026.032-2.642-.776-.44-.576-1.124-.915-1.85-.915-.725 0-1.409.339-1.849.915-.613.809-1.683 1.124-2.639.777-.682-.248-1.44-.163-2.05.229-.61.392-1.003 1.047-1.061 1.77-.082 1.014-.812 1.857-1.803 2.081-.708.16-1.3.642-1.601 1.302s-.277 1.422.065 2.061c.479.897.32 2.001-.392 2.727-.509.517-.747 1.242-.644 1.96s.536 1.347 1.17 1.7c.888.495 1.352 1.51 1.144 2.505-.147.71.044 1.448.519 1.996.476.549 1.18.844 1.902.798 1.016-.063 1.953.54 2.317 1.489.259.678.82 1.195 1.517 1.399.695.204 1.447.072 2.031-.357.819-.603 1.936-.603 2.754 0 .584.43 1.336.562 2.031.357.697-.204 1.258-.722 1.518-1.399.363-.949 1.301-1.553 2.316-1.489.724.046 1.427-.249 1.902-.798.475-.548.667-1.286.519-1.996-.207-.995.256-2.01 1.145-2.505.633-.354 1.065-.982 1.169-1.7s-.135-1.443-.643-1.96zm-12.584 5.43l-4.5-4.364 1.857-1.857 2.643 2.506 5.643-5.784 1.857 1.857-7.5 7.642z"/></svg>
-          Fait !
+          <strong>Fait !</strong>
         </span>
       </button>
     </nav>
@@ -115,22 +115,49 @@
     padding-left: 7.5em;
     position: relative;
     z-index: 1; // Each item above previous
-    transition: opacity 350ms;
+    transition: all 250ms;
 
     &.is-checked {
       box-shadow: 0 0 0 1px rgba($green,.5), 0 1px 2px rgba($green,.25);
     }
+
+    @media (max-width: 520px) {
+      padding-left: 1em;
+      border-radius: 0;
+      border-top: 1px solid mix(black,white,10);
+      border-bottom: 1px solid mix(black,white,10);
+      margin: 0 -1em -1px;
+      box-shadow: none !important;
+      padding: .5em;
+      padding-left: 4.5em;
+    }
+
+    @media (min-width: 521px) {
+
+      &:hover,
+      &:focus {
+        transform: translateY(-2px);
+      }
+    }
   }
 
   .cover {
-    float: left;
-    width: 6.5em; height: 6.5em;
-    object-fit: cover;
-    margin: -1em 0 -1em -7.5em;
+    position: absolute;
+    top: 0; left: 0;
+    width: 6.5em; height: 100%;
+    border-radius: 0;
+    margin: 0;
+    border: none;
     border: 3px solid white;
     border-radius: 5px;
     overflow: hidden;
     background-color: rgba(black,.03);
+    object-fit: cover;
+    box-sizing: border-box;
+
+    @media (max-width: 520px) {
+      width: 4em;
+    }
   }
 
   .difficulty {
@@ -159,6 +186,8 @@
     display: block;
     font-size: 1em;
     opacity: .5;
+    line-height: 1.2;
+    margin-bottom: .25em;
   }
 
   .title {
@@ -181,10 +210,15 @@
     &:hover:before {
       box-shadow: 0 2px 10px rgba(black,.15);
     }
+
+    @media (max-width: 520px) {
+      margin-right: 0;
+    }
   }
 
   .links {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     font-size: .9em;
 
@@ -219,6 +253,7 @@
   }
 
   .check {
+    flex: 0 0 auto;
     margin-left: auto;
     appearance: none;
     border: 1px solid;
@@ -249,7 +284,15 @@
 
       > svg {
         width: 1.2em; height: 1.2em;
-        margin-right: .5em;
+      }
+
+      > strong {
+        margin-left: .5em;
+
+        @media (max-width: 520px) {
+          margin-left: 0;
+          display: none;
+        }
       }
     }
   }

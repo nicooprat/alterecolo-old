@@ -156,6 +156,15 @@
     display: flex;
     flex-wrap: wrap;
     margin: 5vh 0;
+
+    @media(min-width: $break) {
+      position: sticky;
+      top: 2em;
+      width: 20em;
+      margin: 1em 0 1em -22em;
+      float: left;
+      clear: left;
+    }
   }
 
   .categories {
@@ -187,6 +196,7 @@
   }
 
   .search {
+    width: 15em;
     appearance: none;
     border: 1px solid rgba(black,.1);
     font: inherit;
@@ -194,6 +204,7 @@
     font-size: .9em;
     padding: .35em .75em .4em;
     color: $text;
+    margin-right: auto;
 
     &::placeholder {
       color: rgba($text,.35);
@@ -202,6 +213,16 @@
     &:focus {
       border-color: rgba($blue,.5);
       outline: none;
+    }
+
+    @media(min-width: $break) {
+      width: 100%;
+      margin-bottom: 1em;
+    }
+
+    @media(max-width: 520px) {
+      width: 100%;
+      margin-bottom: 1em;
     }
   }
 
@@ -213,6 +234,17 @@
   .sort {
     margin-left: 1em;
     cursor: pointer;
+
+    &:first-child {
+
+      @media(min-width: $break) {
+        margin-left: 0;
+      }
+
+      @media(max-width: 520px) {
+        margin-left: 0;
+      }
+    }
 
     input {
       position: absolute;
@@ -240,9 +272,17 @@
   }
 
   .list {
+    width: 100%;
     list-style: none;
     padding-left: 0;
     margin-bottom: 5vh;
+
+    @media(min-width: $break) {
+      padding: 5px;
+      padding-top: 3em;
+      margin: 0 -5px 5vh;
+      overflow: hidden;
+    }
   }
 
   .empty {

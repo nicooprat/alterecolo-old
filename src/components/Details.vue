@@ -39,6 +39,13 @@
 <style scoped lang="scss">
   @import '../scss/vars';
 
+  article {
+
+    @media (min-width: $break) {
+      padding-top: 4em;
+    }
+  }
+
   blockquote {
     margin: 0;
     margin-bottom: 2em;

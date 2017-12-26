@@ -70,6 +70,13 @@
 
     > svg {
       margin-right: .5em;
+      width: 1em; height: 1em;
+    }
+
+    @media (max-width: 520px) {
+      top: 1em; right: 0;
+      margin-top: 0;
+      margin-right: 0;
     }
   }
 
