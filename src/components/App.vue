@@ -35,7 +35,7 @@
   $rfs-breakpoint: 900;
   @import '~rfs';
 
-  @import './scss/vars';
+  @import '../scss/vars';
 
   * {
     line-height: 1.418;

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import List from '@/components/List'
 import Details from '@/components/Details'
-import store from '@/store'
+import store from '@/config/store'
 import Airtable from 'airtable'
 import bugsnag from '@/config/errors'
 
