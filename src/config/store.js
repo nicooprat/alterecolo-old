@@ -22,12 +22,10 @@ export default new Vuex.Store({
       const index = state.checkeds.indexOf(item.id)
       if (index === -1) {
         // Push
-        Vue.$ga.event('Action', 'Check', 'id', item.id)
         state.score += item.Difficulté
         state.checkeds.push(item.id)
       } else {
         // Pull
-        Vue.$ga.event('Action', 'Uncheck', 'id', item.id)
         state.score -= item.Difficulté
         state.checkeds.splice(index, 1)
       }

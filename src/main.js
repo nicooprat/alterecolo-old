@@ -8,7 +8,15 @@ import VueAnalytics from 'vue-analytics'
 
 sync(store, router)
 
-Vue.use(VueAnalytics, {id: 'UA-111346412-1'})
+Vue.use(VueAnalytics, {
+  id: 'UA-111346412-1',
+  commands: {
+    toggleCheck(itemId) {
+      const action = store.state.checkeds.includes(itemId) ? 'Check' : 'Uncheck'
+      this.$ga.event('Action', action, 'id', itemId)
+    }
+  },
+})
 Vue.use(VueFuse)
 
 Vue.config.productionTip = false
