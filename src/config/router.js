@@ -11,7 +11,10 @@ Vue.use(Router)
 const router = new Router({
   mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    return savedPosition || (to.hash && {selector: to.hash}) || {x: 0, y: 0}
+    if( ['Home', 'Category'].includes(to.name) && ['Home', 'Category'].includes(from.name) )
+      return false
+    else
+      return savedPosition || (to.hash && {selector: to.hash}) || {x: 0, y: 0}
   },
   routes: [
     {
