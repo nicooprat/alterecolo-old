@@ -8,14 +8,7 @@ import VueAnalytics from 'vue-analytics'
 
 sync(store, router)
 
-Vue.use(VueAnalytics, {
-  id: 'UA-111346412-1',
-  debug: {
-    enabled: true,
-    trace: false,
-    sendHitTask: true
-  }
-})
+Vue.use(VueAnalytics, {id: 'UA-111346412-1'})
 Vue.use(VueFuse)
 
 Vue.config.productionTip = false
