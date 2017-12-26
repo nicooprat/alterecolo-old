@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Head/>
     <Score/>
+    <Head/>
     <Home v-if="$route.name !== 'Details'"/>
     <router-view/>
     <Foot/>
