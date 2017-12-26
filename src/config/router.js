@@ -96,6 +96,7 @@ router.onReady(function(to, from, next) {
   }, (err) => {
     store.commit('setDatas', {items, categories})
     err && bugsnag.notify(new Error(err))
+    window.prerenderReady = true
   })
 })
 
