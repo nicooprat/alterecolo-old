@@ -35,14 +35,16 @@
       </nav>
     </form>
 
-    <ul class="list" v-if="filteredItems && filteredItems.length">
-      <Item v-for="item in filteredItems" :item="item" :key="item.id"/>
-    </ul>
-    <p class="empty" v-else>
-      <strong>🍃</strong>
-      <span>Aucune alternative trouvée...</span>
-      <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a>
-    </p>
+    <div class="results">
+      <ul class="list" v-if="filteredItems && filteredItems.length">
+        <Item v-for="item in filteredItems" :item="item" :key="item.id"/>
+      </ul>
+      <p class="empty" v-else>
+        <strong>🍃</strong>
+        <span>Aucune alternative trouvée...</span>
+        <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a>
+      </p>
+      </div>
   </main>
 </template>
 
@@ -271,11 +273,8 @@
     font-weight: bold;
   }
 
-  .list {
+  .results {
     width: 100%;
-    list-style: none;
-    padding-left: 0;
-    margin-bottom: 5vh;
 
     @media(min-width: $break) {
       padding: 5px;
@@ -285,12 +284,27 @@
     }
   }
 
+  .list {
+    width: 100%;
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 5vh;
+  }
+
   .empty {
     margin-top: 0;
     margin-bottom: 5vh;
     background-color: rgba($green,.05);
     padding: 1em;
     border-radius: 3px;
+
+    a {
+      color: $green;
+      text-decoration: none;
+      border-bottom: 2px solid;
+      font-weight: bold;
+    }
 
     strong {
       float: left;
