@@ -112,7 +112,7 @@
     mounted() {
       // Update Disqus comments counts
       /* global DISQUSWIDGETS */
-      DISQUSWIDGETS && DISQUSWIDGETS.getCount({reset: true})
+      if (typeof(DISQUSWIDGETS) !== 'undefined') DISQUSWIDGETS.getCount({reset: true})
 
       // Catch search events
       this.$on('searchItems', results => {
