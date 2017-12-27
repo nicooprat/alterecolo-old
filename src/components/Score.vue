@@ -20,6 +20,12 @@
     }),
     watch: {
       score(newValue, oldValue) {
+        // Animation not supported
+        if ('animate' in this.$el === false) {
+          this.newScore = newValue
+          return false
+        }
+        // Animate to newValue
         const order = newValue < oldValue ? -1 : 1
         this.$el.querySelector('strong').animate([{
           transform: 'translateY(0%)',
@@ -43,7 +49,6 @@
             easing: 'cubic-bezier(0.175, 0.885, 0.305, 1.605)'
           })
         }
-        return false
       }
     }
   }

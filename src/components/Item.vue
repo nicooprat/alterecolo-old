@@ -207,8 +207,11 @@
       transition: box-shadow 250ms;
     }
 
-    &:hover:before {
-      box-shadow: 0 2px 10px rgba(black,.15);
+    @media (min-width: 521px) {
+
+      &:hover:before {
+        box-shadow: 0 2px 10px rgba(black,.15);
+      }
     }
 
     @media (max-width: 520px) {
@@ -256,6 +259,7 @@
     flex: 0 0 auto;
     margin-left: auto;
     appearance: none;
+    background: none;
     border: 1px solid;
     padding: .5em .8em .4em;
     color: $green;
@@ -267,8 +271,11 @@
     position: relative;
     z-index: 1; // Above other links
 
-    &:hover {
-      background-color: rgba($green, .1);
+    @media (min-width: 521px) {
+
+      &:hover {
+        background-color: rgba($green, .1);
+      }
     }
 
     .is-checked & {
