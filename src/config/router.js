@@ -5,8 +5,12 @@ import Details from '@/components/Details'
 import store from '@/config/store'
 import Airtable from 'airtable'
 import bugsnag from '@/config/errors'
+import slugify from 'slugify'
 
 Vue.use(Router)
+
+// Remove & => 'and'
+slugify.extend({'&': null})
 
 const router = new Router({
   mode: 'history',
@@ -68,14 +72,14 @@ router.onReady(function(to, from, next) {
       const newItem = {
         ...item.fields,
         id: item.id,
-        slug: item.fields.Alternative.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(' ').join('-').toLowerCase(),
+        slug: slugify(item.fields.Alternative, {lower: true}),
         createdTime: item._rawJson.createdTime,
         cover: item.fields.Photo && item.fields.Photo[0], // Easier access
         categories: [],
       }
       // Push item categories
       item.fields.Catégorie.forEach((category) => {
-        const slug = category.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(' ').join('-').toLowerCase()
+        const slug = slugify(category, {lower: true})
         const existingCategory = categories.filter((c) => c.slug === slug)[0]
         // Push normalized categories in newItem
         const cat = {
