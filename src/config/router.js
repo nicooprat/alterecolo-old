@@ -15,7 +15,7 @@ slugify.extend({'&': null})
 const router = new Router({
   mode: 'history',
   scrollBehavior(to, from, savedPosition) {
-    if( ['Home', 'Category'].includes(to.name) && ['Home', 'Category'].includes(from.name) )
+    if( ['Home', 'Category'].indexOf(to.name) >= 0 && ['Home', 'Category'].indexOf(from.name) >= 0 )
       return false
     else
       return savedPosition || (to.hash && {selector: to.hash}) || {x: 0, y: 0}

@@ -12,7 +12,7 @@ Vue.use(VueAnalytics, {
   id: 'UA-111346412-1',
   commands: {
     toggleCheck(itemId) {
-      const action = store.state.checkeds.includes(itemId) ? 'Check' : 'Uncheck'
+      const action = store.state.checkeds.indexOf(itemId) >= 0 ? 'Check' : 'Uncheck'
       this.$ga.event('Action', action, 'id', itemId)
     }
   },
