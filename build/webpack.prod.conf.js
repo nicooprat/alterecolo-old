@@ -136,6 +136,8 @@ const webpackConfig = merge(baseWebpackConfig, {
     new BugsnagDeployPlugin({
       apiKey: '3fa623ae462ce13db539a7a70631a0fa',
       releaseStage: 'production',
+      repository: 'git@github.com:nicooprat/alterecolo.git',
+      branch: 'prod'
     }),
     new BugsnagSourceMapPlugin({
       apiKey: '3fa623ae462ce13db539a7a70631a0fa',
