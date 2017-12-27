@@ -35,7 +35,7 @@
     props: ['item'],
     computed: {
       checked() {
-        return this.$store.state.checkeds.includes(this.item.id)
+        return this.$store.state.checkeds.indexOf(this.item.id) >= 0
       }
     },
     created() {},

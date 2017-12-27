@@ -102,7 +102,7 @@
         // Category: filtered
         if (this.$route.name === 'Category') {
           const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]
-          items = category && items.filter((item) => item.Catégorie.includes(category.name))
+          items = category && items.filter((item) => item.Catégorie.indexOf(category.name) >= 0)
         }
         // Get items
         return items
