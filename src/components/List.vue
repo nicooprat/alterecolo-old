@@ -35,7 +35,7 @@
       </nav>
     </form>
 
-    <div class="results">
+    <div class="results" v-if="$store.state.datasLoaded">
       <ul class="list" v-if="filteredItems && filteredItems.length">
         <Item v-for="item in filteredItems" :item="item" :key="item.id"/>
       </ul>
@@ -44,7 +44,13 @@
         <span>Aucune alternative trouvée...</span>
         <a class="propose" href="https://bit.ly/AlterEcolo-proposer">Proposer une alternative</a>
       </p>
-      </div>
+    </div>
+
+    <div class="loading" v-else>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
   </main>
 </template>
 
@@ -153,6 +159,46 @@
 
 <style scoped lang="scss">
   @import '../scss/vars';
+
+  main {
+    min-height: 100vh;
+  }
+
+  .loading {
+    width: 100%;
+
+    @media (min-width: $break) {
+      padding-top: 6em;
+    }
+
+    > div {
+      $w: 600px;
+      height: 4em;
+      margin-bottom: 2em;
+      background-color: rgba(black,.03);
+      background-image: linear-gradient(to right, rgba(black,0) 0, rgba(black,.03) $w/2, rgba(black,0) $w);
+      background-repeat: no-repeat;
+      background-size: $w 100%;
+      animation: loading 1s infinite both;
+
+      &:nth-child(1) {
+        animation-delay: -100ms;
+      }
+
+      &:nth-child(2) {
+        animation-delay: -50ms;
+      }
+
+      @keyframes loading{
+        from { background-position: -$w 0 }
+        to   { background-position: calc(100% + #{$w}) 0 }
+      }
+
+      @media (max-width: 520px) {
+        margin: 0 -1em 1px;
+      }
+    }
+  }
 
   .filters {
     display: flex;

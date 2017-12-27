@@ -10,12 +10,14 @@ export default new Vuex.Store({
     checkeds: [],
     score: 0,
     items: [],
-    categories: []
+    categories: [],
+    datasLoaded: false
   },
   mutations: {
     setDatas(state, {items, categories}) {
       state.items = items
       state.categories = categories
+      state.datasLoaded = true
     },
     toggleCheckItem (state, {item}) {
       // Already checked?
