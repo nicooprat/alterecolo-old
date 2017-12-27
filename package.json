@@ -12,7 +12,7 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "build": "node build/build.js",
-    "deploy": "git checkout prod && git merge master && git push && git checkout master"
+    "deploy": "git checkout prod && git merge master --no-edit && git push && git checkout master"
   },
   "dependencies": {
     "airtable": "^0.5.1",
