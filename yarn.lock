@@ -7301,9 +7301,9 @@ webidl-conversions@^4.0.0:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-4.0.2.tgz#a855980b1f0b6b359ba1d5d9fb39ae941faa63ad"
 
-webpack-bugsnag-plugin@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/webpack-bugsnag-plugin/-/webpack-bugsnag-plugin-0.1.1.tgz#55d82976524fc8fac10811ca105cc9d7f27ec38b"
+webpack-bugsnag-plugin@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/webpack-bugsnag-plugin/-/webpack-bugsnag-plugin-0.1.3.tgz#e066805278565bc4019b69114dc60301b36f6fc8"
   dependencies:
     bugsnag-sourcemaps "^1.0.1"
     debug "^3.1.0"
