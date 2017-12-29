@@ -85,7 +85,7 @@ export default {
       type: Number,
       default: 1
     },
-    keys:  {
+    keys: {
       type: Array
     },
     throttle: {
@@ -121,16 +121,17 @@ export default {
       this.value = this.search || ''
     },
     value () {
-      this.$parent.$emit(this.inputChangeEventName, this.value);
+      this.$parent.$emit(this.inputChangeEventName, this.value)
 
-      if (this.value.trim() === '')
+      if (this.value.trim() === '') {
         if (this.defaultAll) {
           this.result = this.list
         } else {
           this.result = []
         }
-      else
+      } else {
         this.result = this.fuse.search(this.value.trim())
+      }
     },
     result () {
       this.$parent.$emit(this.eventName, this.result)
@@ -138,7 +139,7 @@ export default {
   },
   methods: {
     initFuse () {
-      this.fuse = new Fuse(this.list, this.options);
+      this.fuse = new Fuse(this.list, this.options)
       if (this.defaultAll) {
         this.result = this.list
       }

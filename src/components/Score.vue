@@ -31,7 +31,7 @@
           transform: 'translateY(0%)',
           opacity: 1
         }, {
-          transform: `translateY(calc(${order*-1} * 50%))`,
+          transform: `translateY(calc(${order * -1} * 50%))`,
           opacity: 0
         }], {
           duration: 100,
