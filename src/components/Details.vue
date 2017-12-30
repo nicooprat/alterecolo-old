@@ -42,7 +42,7 @@
   article {
 
     @media (min-width: $break) {
-      padding-top: 4em;
+      padding-top: 6em;
     }
   }
 
