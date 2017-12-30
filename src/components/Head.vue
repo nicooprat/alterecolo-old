@@ -7,7 +7,7 @@
         </svg>
         <strong>AlterÉcolo</strong>
       </h1>
-      <h3 class="subtitle">Alternatives écologiques aux objets et habitudes du quotidien</h3>
+      <h3 class="subtitle">Alternatives écologiques et durables aux objets et habitudes du quotidien</h3>
     </router-link>
   </header>
 </template>
