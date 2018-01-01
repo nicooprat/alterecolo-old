@@ -110,6 +110,8 @@
           const category = this.categories.filter((cat) => cat.slug === this.$route.params.category)[0]
           items = category && items.filter((item) => item.Catégorie.indexOf(category.name) >= 0)
         }
+        // Update head metas
+        this.$emit('updateHead')
         // Get items
         return items
       }
@@ -152,7 +154,26 @@
         if (!sort && !this.$store.state.route.query.sort) return true
         // Match sort
         return this.$store.state.route.query.sort === sort
+      },
+      currentCategory() {
+        return this.$router.currentRoute.name === 'Category' && this.$props.categories.filter(c => c.slug === this.$router.currentRoute.params.category)[0]
       }
+    },
+    head: {
+      title() {
+        return this.currentCategory() && {
+          inner: this.currentCategory().name
+        } || false
+      },
+      meta() {
+        return this.currentCategory() && [{
+          property: 'og:title',
+          content: this.currentCategory().name
+        }, {
+          name: 'twitter:title',
+          content: this.currentCategory().name
+        }] || false
+      },
     }
   }
 </script>

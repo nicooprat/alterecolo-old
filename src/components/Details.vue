@@ -32,7 +32,29 @@
       /* global DISQUSWIDGETS */
       if (typeof DISQUSWIDGETS !== 'undefined') DISQUSWIDGETS.getCount({reset: true})
     },
-    methods: {}
+    methods: {},
+    head: {
+      title() {
+        return {
+          inner: this.$props.item.Alternative
+        }
+      },
+      meta() {
+        return [{
+          property: 'og:title',
+          content: this.$props.item.Alternative
+        }, {
+          property: 'og:image',
+          content: this.$props.item.cover.thumbnails.large.url
+        }, {
+          name: 'twitter:title',
+          content: this.$props.item.Alternative
+        }, {
+          name: 'twitter:image',
+          content: this.$props.item.cover.thumbnails.large.url
+        }]
+      },
+    }
   }
 </script>
 
