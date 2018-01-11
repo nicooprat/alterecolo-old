@@ -7185,9 +7185,9 @@ vue-disqus@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/vue-disqus/-/vue-disqus-2.0.4.tgz#bee0ba3421202a0980e3cd81e357535d3816fa55"
 
-vue-fuse@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/vue-fuse/-/vue-fuse-1.3.0.tgz#f98bf4bd0907403ba31161999093e2a1ab7df782"
+vue-fuse@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/vue-fuse/-/vue-fuse-1.4.0.tgz#4a94631f0df38afd4ef0fb8d3a17a4b98b1eb93a"
   dependencies:
     fuse.js "^3.2.0"
     vue "^2.5.11"

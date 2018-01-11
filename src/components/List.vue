@@ -56,7 +56,7 @@
 
 <script>
   import Item from '@/components/Item'
-  import VueFuse from '@/components/VueFuse'
+  import VueFuse from 'vue-fuse'
 
   export default {
     name: 'List',
@@ -161,18 +161,18 @@
     },
     head: {
       title() {
-        return this.currentCategory() && {
+        return (this.currentCategory() && {
           inner: this.currentCategory().name
-        } || false
+        }) || false
       },
       meta() {
-        return this.currentCategory() && [{
+        return (this.currentCategory() && [{
           property: 'og:title',
           content: this.currentCategory().name
         }, {
           name: 'twitter:title',
           content: this.currentCategory().name
-        }] || false
+        }]) || false
       },
     }
   }
