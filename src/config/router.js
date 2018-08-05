@@ -39,7 +39,7 @@ const router = new Router({
       component: Details,
       props(route) {
         const item = store.state.items.filter(item => item.id === route.params.id)
-        return {
+        return item && item[0] && {
           key: item[0].id,
           item: item[0]
         }
