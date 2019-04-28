@@ -36,7 +36,7 @@
     head: {
       title() {
         return {
-          inner: this.$props.item.Alternative
+          inner: this.item ? this.item.Alternative : 'Chargement...'
         }
       },
       meta() {
