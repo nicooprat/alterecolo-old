@@ -40,18 +40,18 @@
         }
       },
       meta() {
-        return [{
+        return this.item && [{
           property: 'og:title',
-          content: this.$props.item.Alternative
+          content: this.item.Alternative
         }, {
           property: 'og:image',
-          content: this.$props.item.cover.thumbnails.large.url
+          content: this.item.cover.thumbnails.large.url
         }, {
           name: 'twitter:title',
-          content: this.$props.item.Alternative
+          content: this.item.Alternative
         }, {
           name: 'twitter:image',
-          content: this.$props.item.cover.thumbnails.large.url
+          content: this.item.cover.thumbnails.large.url
         }]
       },
     }
